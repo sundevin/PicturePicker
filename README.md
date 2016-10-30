@@ -18,14 +18,13 @@
  
 #### 2，Application 初始化全局配置
  
-         @Override
+            @Override
     public void onCreate() {
         super.onCreate();
 
-
         //初始化全局配置
         PickerGlobalConfig config = new PickerGlobalConfig.Builder()
-                .setCacheFolderPath("xxxx")//设置拍照的路径，默认sdcard/data/data/package/files
+    //                .setCacheFolderPath("xxxx")//设置拍照的路径，默认sdcard/data/data/package/files
                 .build();
         PicturePicker.getInstance().init(config);
 
