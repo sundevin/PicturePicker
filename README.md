@@ -5,9 +5,9 @@
 
 项目参考了其他类似开源项目的部分实现，并针对一些边界问题做了修复，例如初始时无图片或者图片过多导致的问题，并针对特殊机型的拍照carsh问题做了修复，代码更加简洁。  
 
-后期会加入图片裁剪功能。
+后期会加入图片裁剪功能。  
 
-
+ 欢迎star 和 Fork,有优化建议和bug可以提issue,我会及时处理。有好的需求，我也会考虑加入。
 
 
 ###使用：
@@ -24,7 +24,7 @@
              .build();
         ImagePicker.getInstance().init(config);
         
-#### 3,打开图片选择页面
+#### 3，打开图片选择页面
 
     button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +45,7 @@
             }
         });
 
-#### 4,获取选择的图片
+#### 4，获取选择的图片
 
           @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -60,11 +60,6 @@
 
         } 
     }
-
-
-
- 欢迎star 和 Fork,有什么新的需求、建议或者bug可以提issue,我会及时处理。
-
 
 
 
