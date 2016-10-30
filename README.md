@@ -18,11 +18,18 @@
  
 #### 2，Application 初始化全局配置
  
+         @Override
+    public void onCreate() {
+        super.onCreate();
+
+
         //初始化全局配置
         PickerGlobalConfig config = new PickerGlobalConfig.Builder()
-            //.setCacheFolderPath("xxxx")//设置图片的缓存路径（拍照和裁剪产生的图片），默认sdcard/data/data/package/files
-             .build();
-        ImagePicker.getInstance().init(config);
+                .setCacheFolderPath("xxxx")//设置拍照的路径，默认sdcard/data/data/package/files
+                .build();
+        PicturePicker.getInstance().init(config);
+
+    }
         
 #### 3，打开图片选择页面
 
