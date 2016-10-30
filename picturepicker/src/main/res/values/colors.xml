@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_303135">#303135</color>
+
+    <!--图片选择页面底部栏背景-->
+    <color name="footBarBackground">#DC22292C</color>
+
+    <color name="black">#000</color>
+    <color name="white">#FFF</color>
+    <color name="color_CC22292C">#CC22292C</color>
+
+    <color name="item_selected_cover">#99000000</color>
+    <color name="item_unselected_center">#00000000</color>
+    <color name="item_unselected_border">#40000000</color>
+
+    <color name="color_E1E1E1">#E1E1E1</color>
+    <color name="color_707070">#707070</color>
+
+
+</resources>
