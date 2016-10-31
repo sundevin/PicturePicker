@@ -8,6 +8,10 @@
 后期会加入图片裁剪功能。  
 
  欢迎star 和 Fork,有优化建议和bug可以提issue,我会及时处理。有好的需求，我也会考虑加入。
+ 
+###效果演示：  
+ 
+ ![效果](https://raw.githubusercontent.com/sundevin/PicturePicker/master/Screenshot/0.gif)
 
 
 ###使用：
