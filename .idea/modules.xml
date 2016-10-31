@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ImagePicker_demo.iml" filepath="$PROJECT_DIR$/ImagePicker_demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PicturePicker.iml" filepath="$PROJECT_DIR$/PicturePicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/picturepicker/picturepicker.iml" filepath="$PROJECT_DIR$/picturepicker/picturepicker.iml" />
     </modules>
