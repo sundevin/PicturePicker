@@ -40,10 +40,10 @@
             @Override
             public void onClick(View v) {
                 PickOptions options = new PickOptions.Builder()
-                        .setMultiMode(rgPickType.getCheckedRadioButtonId() == R.id.rb_multi)//是否多选,默认true
-                        .setPickMaxCount(seekBar.getProgress())//最大图片数,默认9张
-                        .setCanPreviewImg(cbCanPreview.isChecked())//点击图片是否可预览，多选时有效
-                        .setShowCamera(cbShowCamera.isChecked())//是否显示相机
+                        .setMultiMode(rgPickType.getCheckedRadioButtonId() == R.id.rb_multi)
+                        .setPickMaxCount(seekBar.getProgress())
+                        .setCanPreviewImg(cbCanPreview.isChecked())
+                        .setShowCamera(cbShowCamera.isChecked())
                         .build();
                 //默认配置
                 // PicturePicker.getInstance().startPickPicture(MainActivity.this, PICK_IMG_REQUEST);
