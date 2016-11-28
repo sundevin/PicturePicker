@@ -39,19 +39,15 @@
     button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 PickOptions options = new PickOptions.Builder()
-                        .setMultiMode(rgPickType.getCheckedRadioButtonId() == R.id.rb_multi)
-                        .setPickMaxCount(seekBar.getProgress())
-                        .setCanPreviewImg(cbCanPreview.isChecked())
-                        .setShowCamera(cbShowCamera.isChecked())
+                        .setMultiMode(rgPickType.getCheckedRadioButtonId() == R.id.rb_multi)//是否多选,默认true
+                        .setPickMaxCount(seekBar.getProgress())//最大图片数,默认9张
+                        .setCanPreviewImg(cbCanPreview.isChecked())//点击图片是否可预览，多选时有效
+                        .setShowCamera(cbShowCamera.isChecked())//是否显示相机
                         .build();
-
                 //默认配置
                 // PicturePicker.getInstance().startPickPicture(MainActivity.this, PICK_IMG_REQUEST);
-
                 PicturePicker.getInstance().startPickPicture(MainActivity.this, PICK_IMG_REQUEST, options);
-
             }
         });
 
@@ -59,15 +55,11 @@
 
           @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (data != null && requestCode == PICK_IMG_REQUEST) {
-
             List<PictureItem> tempList = (List<PictureItem>) data.getSerializableExtra(PictureGridActivity.EXTRA_RESULT_PICK_IMAGES);
-
             pictureItemList.clear();
             pictureItemList.addAll(tempList);
             sampleAdapter.notifyDataSetChanged();
-
         } 
     }
 
