@@ -49,7 +49,8 @@
                 // PicturePicker.getInstance().startPickPicture(MainActivity.this, PICK_IMG_REQUEST);
                 PicturePicker.getInstance().startPickPicture(MainActivity.this, PICK_IMG_REQUEST, options);
             }
-        });
+        });   
+        
 
 #### 4，获取选择的图片
 
