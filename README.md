@@ -35,21 +35,21 @@
     }
         
 #### 3，打开图片选择页面
-
-    button.setOnClickListener(new View.OnClickListener() {
+       button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PickOptions options = new PickOptions.Builder()
-                        .setMultiMode(rgPickType.getCheckedRadioButtonId() == R.id.rb_multi)
-                        .setPickMaxCount(seekBar.getProgress())
-                        .setCanPreviewImg(cbCanPreview.isChecked())
-                        .setShowCamera(cbShowCamera.isChecked())
-                        .build();
+                .setMultiMode(rgPickType.getCheckedRadioButtonId() == R.id.rb_multi)
+                .setPickMaxCount(seekBar.getProgress())
+                .setCanPreviewImg(cbCanPreview.isChecked())
+                .setShowCamera(cbShowCamera.isChecked())
+                .build();
+                
                 //默认配置
                 // PicturePicker.getInstance().startPickPicture(MainActivity.this, PICK_IMG_REQUEST);
                 PicturePicker.getInstance().startPickPicture(MainActivity.this, PICK_IMG_REQUEST, options);
             }
-        });   
+            });   
         
 
 #### 4，获取选择的图片
