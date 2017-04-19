@@ -12,6 +12,11 @@
 ### 效果演示：
  
  ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/0.gif)
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/1.png)
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/2.png)
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/3.png)
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/4.png)
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/5.png)
 
 
 ### 使用：
@@ -64,5 +69,38 @@
         } 
     }
 
+#### 5, 进入裁剪功能
 
+```
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
+                    CropOptions cropOptions = new CropOptions.Builder()
+                            .setOutPutX(800)
+                            .setOutPutY(800)
+                            .setStyle(CropImageView.Style.RECTANGLE)
+                            .setFocusWidth(displayMetrics.widthPixels)
+                            .setFocusHeight(displayMetrics.widthPixels)
+                            .setSaveRectangle(false)
+                            .build();
+
+                    PictureCropActivity.startPictureCropActivity(MainActivity.this, pictureItemList.get(0).pictureAbsPath, cropOptions, CROP_IMG_REQUEST);
+
+```
+
+#### 6, 获取裁剪后的图片
+
+```
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (data != null && requestCode == CROP_IMG_REQUEST) {
+
+            String cropImgPath = data.getStringExtra(PictureCropActivity.EXTRA_NAME_CROP_IMG_PATH);
+            PictureItem pictureItem = new PictureItem();
+            pictureItem.pictureAbsPath = cropImgPath;
+
+            pictureItemList.clear();
+            pictureItemList.add(pictureItem);
+            sampleAdapter.notifyDataSetChanged();
+            }
+        }
+```

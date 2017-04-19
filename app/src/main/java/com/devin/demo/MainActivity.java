@@ -131,7 +131,9 @@ public class MainActivity extends AppCompatActivity {
                     DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
                     CropOptions cropOptions = new CropOptions.Builder()
-                            .setStyle(CropImageView.Style.CIRCLE)
+                            .setOutPutX(800)
+                            .setOutPutY(800)
+                            .setStyle(CropImageView.Style.RECTANGLE)
                             .setFocusWidth(displayMetrics.widthPixels)
                             .setFocusHeight(displayMetrics.widthPixels)
                             .setSaveRectangle(false)
