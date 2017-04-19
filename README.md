@@ -9,20 +9,20 @@
 
  欢迎star 和 Fork,有优化建议和bug可以提issue,我会及时处理。有好的需求，我也会考虑加入。
  
-###效果演示：  
+### 效果演示：
  
- ![效果](https://raw.githubusercontent.com/sundevin/PicturePicker/master/Screenshot/0.gif)
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/0.gif)
 
 
-###使用：
+### 使用：
 
-####适用版本 minSdkVersion 14及以上
+#### 适用版本 minSdkVersion 14及以上
 
 #### 1，导入依赖库 picturepicker
  
 #### 2，Application 初始化全局配置
  
-            @Override
+    @Override
     public void onCreate() {
         super.onCreate();
 
@@ -54,7 +54,7 @@
 
 #### 4，获取选择的图片
 
-          @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null && requestCode == PICK_IMG_REQUEST) {
             List<PictureItem> tempList = (List<PictureItem>) data.getSerializableExtra(PictureGridActivity.EXTRA_RESULT_PICK_IMAGES);
