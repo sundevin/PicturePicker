@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -54,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox cbCanPreview;
     private CheckBox cbShowCamera;
     private Button button;
+    private EditText etOutPutX;
+    private EditText etOutPutY;
+    private RadioGroup rgFarmShape;
+    private RadioButton rbRectangle;
+    private RadioButton rbCircle;
+    private EditText etFarmWidth;
+    private EditText etFarmHeight;
+    private CheckBox cbSaveByFarmShape;
     private Button button2;
     private RecyclerView recyclerView;
 
@@ -67,8 +76,21 @@ public class MainActivity extends AppCompatActivity {
         cbCanPreview = (CheckBox) findViewById(R.id.cb_canPreview);
         cbShowCamera = (CheckBox) findViewById(R.id.cb_showCamera);
         button = (Button) findViewById(R.id.button);
+        etOutPutX = (EditText) findViewById(R.id.et_out_put_x);
+        etOutPutY = (EditText) findViewById(R.id.et_out_put_y);
+        rgFarmShape = (RadioGroup) findViewById(R.id.rg_farm_shape);
+        rbRectangle = (RadioButton) findViewById(R.id.rb_rectangle);
+        rbCircle = (RadioButton) findViewById(R.id.rb_circle);
+        etFarmWidth = (EditText) findViewById(R.id.et_farm_width);
+        etFarmHeight = (EditText) findViewById(R.id.et_farm_height);
+        cbSaveByFarmShape = (CheckBox) findViewById(R.id.cb_save_by_farm_shape);
         button2 = (Button) findViewById(R.id.button2);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        etFarmWidth.setText(String.valueOf(displayMetrics.widthPixels));
+        etFarmHeight.setText(String.valueOf(displayMetrics.widthPixels));
+
 
         rgPickType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -128,15 +150,13 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "先选图片", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-
                     CropOptions cropOptions = new CropOptions.Builder()
-                            .setOutPutX(800)
-                            .setOutPutY(800)
-                            .setStyle(CropImageView.Style.RECTANGLE)
-                            .setFocusWidth(displayMetrics.widthPixels)
-                            .setFocusHeight(displayMetrics.widthPixels)
-                            .setSaveRectangle(false)
+                            .setOutPutX(Integer.parseInt(etOutPutX.getText().toString()))
+                            .setOutPutY(Integer.parseInt(etOutPutY.getText().toString()))
+                            .setStyle(rbRectangle.isChecked()? CropImageView.Style.RECTANGLE:CropImageView.Style.CIRCLE)
+                            .setFocusWidth(Integer.parseInt(etFarmWidth.getText().toString()))
+                            .setFocusHeight(Integer.parseInt(etFarmHeight.getText().toString()))
+                            .setSaveRectangle(!cbSaveByFarmShape.isSaveEnabled())
                             .build();
 
                     PictureCropActivity.startPictureCropActivity(MainActivity.this, pictureItemList.get(0).pictureAbsPath, cropOptions, CROP_IMG_REQUEST);

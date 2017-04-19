@@ -2,23 +2,21 @@
 一个高仿微信朋友圈图片选择的项目
 
 项目为高仿微信图片选择模块，目前可实现图片的单选，多选，拍照，预览，选择后删除等
-图片裁剪功能支持自定义裁剪框样式，大小，形状，裁剪后图片的尺寸等
-
+图片裁剪功能支持自定义裁剪框样式，大小，形状，方向旋转，裁剪后图片的尺寸等
+后期将会添加自定义主题
 
 项目参考了其他类似开源项目的部分实现，并针对一些边界问题做了修复，例如初始时无图片或者图片过多导致的问题，并针对特殊机型的拍照carsh问题做了修复，代码更加简洁。  
 
-
- 欢迎star 和 Fork,有优化建议和bug可以提issue,我会及时处理。有好的需求，我也会考虑加入。
+ 欢迎star 和 Fork,有优化建议和bug可以提issue,我会及时处理。
  
 ### 效果演示：
  
- ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/0.gif)
- ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/1.png)
- ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/2.png)
- ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/3.png)
- ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/4.png)
- ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/5.png)
-
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/picturepicker-img/0.gif)
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/picturepicker-img/1.png)
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/picturepicker-img/2.png)
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/picturepicker-img/3.png)
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/picturepicker-img/4.png)
+ ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/picturepicker-img/5.png)
 
 ### 使用：
 
