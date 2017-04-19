@@ -74,7 +74,7 @@ public class PopupFolderListAdapter extends BaseAdapter {
                 .into(holder.getIvFolderCover());
 
         holder.getTvFolderName().setText(pictureFolder.folderName);
-        holder.getTvPictureCount().setText("共" + pictureFolder.pictureItemList.size() + "张");
+        holder.getTvPictureCount().setText(context.getResources().getString(R.string.folder_picture_count,pictureFolder.pictureItemList.size()));
 
         if (TextUtils.equals(currentSelectFolderPath, pictureFolder.folderAbsPath)) {
             holder.getIvFolderCheck().setVisibility(View.VISIBLE);

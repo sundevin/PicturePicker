@@ -21,7 +21,7 @@ import java.util.List;
 import devin.com.picturepicker.R;
 import devin.com.picturepicker.adapter.PicturePreviewAdapter;
 import devin.com.picturepicker.constant.PreviewAction;
-import devin.com.picturepicker.helper.PicturePicker;
+import devin.com.picturepicker.helper.pick.PicturePicker;
 import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.utils.Utils;
 
@@ -44,7 +44,6 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
     private Button titleCompleteButton;
     private ImageView ivDelete;
 
-    private RelativeLayout activityPicturePreview;
     private ViewPager vpPicturePreview;
     private LinearLayout llFootBar;
     private TextView tvPicturePreviewSelect;
@@ -53,7 +52,6 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
 
 
     private void assignViews() {
-        activityPicturePreview = (RelativeLayout) findViewById(R.id.activity_picture_preview);
         vpPicturePreview = (ViewPager) findViewById(R.id.vp_picture_preview);
         llFootBar = (LinearLayout) findViewById(R.id.ll_foot_bar);
         tvPicturePreviewSelect = (TextView) findViewById(R.id.tv_picture_preview_select);
@@ -69,42 +67,31 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
         vpPicturePreview.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
-
                 refreshTitleText(position + 1, pictureItemList.size());
-
                 PictureItem pictureItem = pictureItemList.get(position);
                 tvPicturePreviewSelect.setSelected(picturePicker.isSelected(pictureItem));
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
         adapter.setOnPictureClickListener(new PicturePreviewAdapter.OnPictureClickListener() {
             @Override
             public void onPictureClick() {
-
                 if (titleBar.getVisibility() == View.VISIBLE) {
-
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) vpPicturePreview.getLayoutParams();
                     layoutParams.topMargin = 0;
-
                     fullScreen(true);
-
                     titleBar.setVisibility(View.GONE);
                     llFootBar.setVisibility(View.GONE);
-
                 } else {
-
                     fullScreen(false);
-
                     int i = titleBar.getLayoutParams().height + Utils.getStatusHeight(PicturePreviewActivity.this);
                     RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) vpPicturePreview.getLayoutParams();
                     layoutParams.topMargin = -i;
@@ -115,7 +102,6 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
                         llFootBar.setVisibility(View.VISIBLE);
                     }
                 }
-
             }
         });
 
@@ -235,57 +221,38 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
                 break;
             case PREVIEW_CAMERA_IMAGE:
                 titleCompleteButton.setVisibility(View.VISIBLE);
-
                 refreshTitleCompleteButton();
-
                 ivDelete.setVisibility(View.GONE);
                 llFootBar.setVisibility(View.GONE);
-
                 break;
-
             case PREVIEW_PICK:
-
                 titleCompleteButton.setVisibility(View.VISIBLE);
                 refreshTitleCompleteButton();
-
                 ivDelete.setVisibility(View.GONE);
                 llFootBar.setVisibility(View.VISIBLE);
-
                 break;
-
             case PREVIEW_DELETE:
-
                 titleCompleteButton.setVisibility(View.GONE);
                 ivDelete.setVisibility(View.VISIBLE);
                 llFootBar.setVisibility(View.GONE);
-
                 break;
-
         }
-
     }
 
 
     public static void startPicturePreviewActivity(Fragment fragment, List<PictureItem> pictureItems, int startPosition, PreviewAction action, int requestCode) {
-
         Intent intent = createIntent(fragment.getActivity(), pictureItems, startPosition, action);
-
         fragment.startActivityForResult(intent, requestCode);
-
     }
 
     public static void startPicturePreviewActivity(Activity activity, List<PictureItem> pictureItems, int startPosition, PreviewAction action, int requestCode) {
-
         Intent intent = createIntent(activity, pictureItems, startPosition, action);
-
         activity.startActivityForResult(intent, requestCode);
     }
 
 
     private static Intent createIntent(Activity activity, List<PictureItem> pictureItems, int startPosition, PreviewAction action) {
-
         Intent intent = new Intent(activity, PicturePreviewActivity.class);
-
         intent.putExtra("startPosition", startPosition);
         intent.putExtra("previewAction", action);
 
@@ -294,9 +261,7 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
         } else {
             intent.putExtra("pictureItems", (Serializable) pictureItems);
         }
-
         return intent;
-
     }
 
 
@@ -318,7 +283,6 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
     }
 
     private void refreshTitleText(int position, int size) {
-
         titleTextView.setText(getString(R.string.img_preview_count, position + "", size + ""));
     }
 
@@ -327,33 +291,24 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
      * 刷新titleBar的完成按钮
      */
     private void refreshTitleCompleteButton() {
-
         if (previewAction == PreviewAction.PREVIEW_CAMERA_IMAGE) {
-
             titleCompleteButton.setText(getString(R.string.complete_button_enable_false));
-
         } else if (previewAction == PreviewAction.PREVIEW_PICK) {
-
             int currentSelectedCount = picturePicker.getCurrentSelectedCount();
             int maxCount = picturePicker.getPickPictureOptions().getPickMaxCount();
-
             if (currentSelectedCount == 0) {
-
                 titleCompleteButton.setEnabled(false);
                 titleCompleteButton.setText(getString(R.string.complete_button_enable_false));
             } else {
-
                 titleCompleteButton.setEnabled(true);
                 titleCompleteButton.setText(getString(R.string.complete_button_enable_true, currentSelectedCount + "", maxCount + ""));
             }
         }
-
     }
 
 
     @Override
     public void onPictureSelected(List<PictureItem> selectedPictureList, PictureItem pictureItem, boolean isSelected) {
-
         refreshTitleCompleteButton();
     }
 
@@ -365,14 +320,12 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
     private void fullScreen(boolean enable) {
 
         if (enable) {
-
             WindowManager.LayoutParams lp = getWindow().getAttributes();
             lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
             getWindow().setAttributes(lp);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         } else {
-
             WindowManager.LayoutParams lp = getWindow().getAttributes();
             lp.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
             getWindow().setAttributes(lp);
@@ -383,20 +336,17 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         toLargePictureItems = null;
         picturePicker.unregisterPictureSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
-
         if (previewAction == PreviewAction.PREVIEW_DELETE) {
             Intent intent = new Intent();
             intent.putExtra(EXTRA_RESULT_PREVIEW_IMAGES, (Serializable) pictureItemList);
             setResult(RESULT_OK, intent);
         }
-
         super.onBackPressed();
     }
 }

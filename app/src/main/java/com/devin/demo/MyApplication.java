@@ -2,7 +2,7 @@ package com.devin.demo;
 
 import android.app.Application;
 
-import devin.com.picturepicker.helper.PicturePicker;
+import devin.com.picturepicker.helper.pick.PicturePicker;
 import devin.com.picturepicker.helper.PickerGlobalConfig;
 
 /**

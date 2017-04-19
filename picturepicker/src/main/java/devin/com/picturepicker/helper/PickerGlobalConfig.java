@@ -30,7 +30,6 @@ public class PickerGlobalConfig implements Serializable {
         private String cacheFolderPath;
 
         public PickerGlobalConfig build() {
-
             return new PickerGlobalConfig(cacheFolderPath);
         }
 
@@ -39,6 +38,4 @@ public class PickerGlobalConfig implements Serializable {
             return this;
         }
     }
-
-
 }

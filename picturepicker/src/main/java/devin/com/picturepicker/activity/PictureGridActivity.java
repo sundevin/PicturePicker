@@ -11,7 +11,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,9 +31,9 @@ import devin.com.picturepicker.adapter.PictureGridAdapter;
 import devin.com.picturepicker.adapter.PopupFolderListAdapter;
 import devin.com.picturepicker.adapter.viewholder.ItemPictureGridHolder;
 import devin.com.picturepicker.constant.PreviewAction;
-import devin.com.picturepicker.helper.PicturePicker;
-import devin.com.picturepicker.helper.PictureScanner;
-import devin.com.picturepicker.helper.PickOptions;
+import devin.com.picturepicker.helper.pick.PickOptions;
+import devin.com.picturepicker.helper.pick.PicturePicker;
+import devin.com.picturepicker.helper.pick.PictureScanner;
 import devin.com.picturepicker.javabean.PictureFolder;
 import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.utils.Utils;
@@ -103,8 +102,8 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState!=null){
-            takePhotoPath=savedInstanceState.getString("takePhotoPath");
+        if (savedInstanceState != null) {
+            takePhotoPath = savedInstanceState.getString("takePhotoPath");
             picturePicker.setPickPictureOptions((PickOptions) savedInstanceState.getSerializable("pickPictureOptions"));
         }
 
@@ -143,58 +142,39 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
                 boolean isCanPreviewImg = picturePicker.getPickPictureOptions().isCanPreviewImg();
 
                 if (position == 0 && isShowCamera) {
-
                     openCamera();
-
                 } else {
-
                     int realPosition = isShowCamera ? position - 1 : position;
-
                     if (isMultiMode) {
-
                         if (isCanPreviewImg) {
                             PicturePreviewActivity.startPicturePreviewActivity(PictureGridActivity.this, currentPictureItemList, realPosition, PreviewAction.PREVIEW_PICK, PREVIEW_IMAGE_REQUEST_CODE);
-
                         } else {
                             pictureGridAdapter.addOrRemovePicture(currentPictureItemList.get(realPosition), holder);
                         }
-
                     } else {
                         picturePicker.addOrRemovePicture(currentPictureItemList.get(realPosition), true);
                         setResult();
                     }
-
                 }
-
             }
         });
-
     }
 
     /**
      * 打开相机
      */
     private void openCamera() {
-
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         if (intent.resolveActivity(getPackageManager()) != null) {
-
             takePhotoPath = Utils.createTakePhotoPath(this);
-
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(takePhotoPath)));
             startActivityForResult(intent, OPEN_CAMERA_REQUEST_CODE);
-
         } else {
-
             Utils.showToast(this, "系统不支持拍照");
-
         }
-
     }
 
     private void setResult() {
-
         Intent intent = new Intent();
         intent.putExtra(EXTRA_RESULT_PICK_IMAGES, (Serializable) picturePicker.getSelectedPictureList());
         setResult(PICK_IMAGE_RESULT_CODE, intent);
@@ -204,21 +184,15 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == OPEN_CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {//拍照返回
-
             File file = new File(takePhotoPath);
-
             PictureItem pictureItem = new PictureItem();
             pictureItem.pictureAbsPath = takePhotoPath;
             pictureItem.pictureSize = file.length();
             pictureItem.pictureName = file.getName();
-
             ArrayList<PictureItem> pictureItems = new ArrayList<>();
             pictureItems.add(pictureItem);
-
             PicturePreviewActivity.startPicturePreviewActivity(this, pictureItems, 0, PreviewAction.PREVIEW_CAMERA_IMAGE, PREVIEW_IMAGE_REQUEST_CODE);
-
         } else if (requestCode == PREVIEW_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             setResult();
         }
@@ -228,29 +202,16 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        Log.d("----------","---------------2");
-
         outState.putString("takePhotoPath", takePhotoPath);
         outState.putSerializable("pickPictureOptions", picturePicker.getPickPictureOptions());
-
-        Log.d("-----------","-------onSaveInstanceState-----"+(picturePicker.getPickPictureOptions()==null));
-
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
 
-        Log.d("----------","---------------3");
-
         super.onRestoreInstanceState(savedInstanceState);
-
         takePhotoPath = savedInstanceState.getString("takePhotoPath");
         picturePicker.setPickPictureOptions((PickOptions) savedInstanceState.getSerializable("pickPictureOptions"));
-
-        Log.d("-----------","-------onRestoreInstanceState-----"+(picturePicker.getPickPictureOptions()==null));
-
-
     }
 
     /**
@@ -291,7 +252,6 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         });
 
         return listPopupWindow;
-
     }
 
 
@@ -300,13 +260,13 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
      */
     private void scanAllPictureFolder() {
 
-        if (pictureScanner == null)
+        if (pictureScanner == null) {
             pictureScanner = new PictureScanner();
+        }
 
         pictureScanner.startScanPicture(this, new PictureScanner.OnScanFinishListener() {
             @Override
             public void onScanFinish(List<PictureFolder> pictureFolders) {
-
                 pictureFolderList.clear();
                 pictureFolderList.addAll(pictureFolders);
 
@@ -337,7 +297,6 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         }
 
         pictureGridAdapter.notifyDataSetChanged();
-
     }
 
 
@@ -345,7 +304,6 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
      * 设置底部当目录名称
      */
     private void setBtnImgFolderText(String folderName) {
-
         if (TextUtils.isEmpty(folderName)) {
             btnImgFolder.setText(getString(R.string.all_img_folder_name));
             btnImgFolder.setEnabled(false);
@@ -353,7 +311,6 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
             btnImgFolder.setText(folderName);
             btnImgFolder.setEnabled(true);
         }
-
     }
 
     /**
@@ -362,7 +319,6 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
      * @param count
      */
     private void refreshPreviewPictureCount(int count) {
-
         if (count > 0) {
             btnImgPreview.setText(String.format(getString(R.string.preview_button_enable_true), count + ""));
             btnImgPreview.setEnabled(true);
@@ -370,7 +326,6 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
             btnImgPreview.setText(getString(R.string.preview_button_enable_false));
             btnImgPreview.setEnabled(false);
         }
-
     }
 
     /**
@@ -379,7 +334,6 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
      * @param count
      */
     private void refreshTitleBarCompleteBtnText(int count) {
-
         if (count > 0) {
             titleBarHelper.getCompleteButton().setText(String.format(getString(R.string.complete_button_enable_true), count + "", picturePicker.getPickPictureOptions().getPickMaxCount() + ""));
             titleBarHelper.getCompleteButton().setEnabled(true);
@@ -387,7 +341,6 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
             titleBarHelper.getCompleteButton().setText(getString(R.string.complete_button_enable_false));
             titleBarHelper.getCompleteButton().setEnabled(false);
         }
-
     }
 
 
@@ -397,13 +350,9 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         int i = v.getId();
         if (i == R.id.btn_img_folder) {
             showFolderListPopupWindow();
-
-
         } else if (i == R.id.btn_img_preview) {
             PicturePreviewActivity.startPicturePreviewActivity(this, picturePicker.getSelectedPictureList(), 0, PreviewAction.PREVIEW_PICK, PREVIEW_IMAGE_REQUEST_CODE);
-
         }
-
     }
 
     /**
@@ -412,25 +361,19 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
     private void showFolderListPopupWindow() {
 
         int itemViewHeight = folderListAdapter.getItemViewHeight();
-
         int maxHeight = (rvPictures.getHeight() - llFootBar.getHeight()) - itemViewHeight / 2;
-
         int realHeight = itemViewHeight * folderListAdapter.getCount();
-
         listPopupWindow.setHeight(Math.min(maxHeight, realHeight));
-
         Utils.setActivityBackgroundAlpha(PictureGridActivity.this, 0.5f);
         listPopupWindow.show();
-
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (pictureScanner != null)
+        if (pictureScanner != null) {
             pictureScanner.stopScanPicture();
-
+        }
         picturePicker.unregisterPictureSelectedListener(this);
         picturePicker.cleanData();
         Glide.get(this).clearMemory();
@@ -438,11 +381,8 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onPictureSelected(List<PictureItem> selectedPictureList, PictureItem pictureItem, boolean isSelected) {
-
         refreshTitleBarCompleteBtnText(selectedPictureList.size());
         refreshPreviewPictureCount(selectedPictureList.size());
-
         pictureGridAdapter.notifyDataSetChanged();
-
     }
 }

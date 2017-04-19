@@ -12,7 +12,7 @@ import java.util.List;
 
 import devin.com.picturepicker.R;
 import devin.com.picturepicker.adapter.viewholder.ItemPictureGridHolder;
-import devin.com.picturepicker.helper.PicturePicker;
+import devin.com.picturepicker.helper.pick.PicturePicker;
 import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.utils.Utils;
 

@@ -27,7 +27,6 @@ public class BaseActivity extends AppCompatActivity {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(flChildViewContent.getLayoutParams());
         layoutParams.addRule(RelativeLayout.BELOW, R.id.titleBar);
         flChildViewContent.setLayoutParams(layoutParams);
-
     }
 
 
@@ -59,14 +58,12 @@ public class BaseActivity extends AppCompatActivity {
      * @param titleBarHelper
      */
     protected void resetTitleBar(TitleBarHelper titleBarHelper) {
-
         titleBarHelper.getBackImageView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
     }
 
 
@@ -112,7 +109,6 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         public void setTitleText(@StringRes int resid) {
-
             tvTitle.setText(resid);
         }
 

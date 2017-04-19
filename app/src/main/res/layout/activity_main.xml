@@ -81,6 +81,15 @@
             android:text="选择图片"
             android:textColor="#fff" />
 
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_303135"
+            android:text="图片裁剪"
+            android:textColor="#fff" />
+
         <android.support.v7.widget.RecyclerView
             android:layout_marginTop="20dp"
             android:id="@+id/recyclerView"

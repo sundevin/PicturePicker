@@ -1,22 +1,19 @@
 <resources>
     <string name="app_name">PicturePicker</string>
-
     <string name="all_img_folder_name">所有图片</string>
-
     <string name="complete_button_enable_false">完成</string>
-
     <string name="complete_button_enable_true">完成(%1$s/%2$s)</string>
-
     <string name="select_limit_tips">你最多选择%1$s张图片</string>
-
     <string name="img_preview_count">%1$s/%2$s</string>
-
-
     <string name="preview_button_enable_false">预览</string>
-
     <string name="preview_button_enable_true">预览(%1$s)</string>
-
-
+    <string name="all_pictures">全部图片</string>
+    <string name="preview">预览</string>
+    <string name="pick_picture">选择图片</string>
+    <string name="complete">完成</string>
+    <string name="folder_picture_count">共%d张</string>
+    <string name="pick">选择</string>
+    <string name="crop_picture">裁剪图片</string>
 
 
 </resources>

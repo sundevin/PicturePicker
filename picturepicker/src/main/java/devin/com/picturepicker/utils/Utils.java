@@ -12,10 +12,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import devin.com.picturepicker.helper.PicturePicker;
+import devin.com.picturepicker.helper.pick.PicturePicker;
+
 
 /**
-
  * <p>   Created by Devin Sun on 2016/10/15.
  */
 
@@ -79,14 +79,21 @@ public class Utils {
 
     }
 
-    private static String createTakePhotoFolderPath(Context context) {
+    public static String createTakePhotoFolderPath(Context context) {
+
+        String tempPath = PicturePicker.getInstance().getGlobalConfig().getCacheFolderPath();
+        if (!TextUtils.isEmpty(tempPath)) {
+            return tempPath;
+        }
 
         if (hasSDCard()) {
-            return context.getExternalFilesDir(null).getAbsolutePath();
-        } else
-            return context.getFilesDir().getAbsolutePath();
+            File file = context.getExternalFilesDir(null);
+            if (file != null) {
+                return file.getAbsolutePath();
+            }
+        }
 
-
+        return context.getFilesDir().getAbsolutePath();
     }
 
     public static String createTakePhotoPath(Context context) {
@@ -94,16 +101,7 @@ public class Utils {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINESE).format(new Date());
         String pictureFileName = "JPEG_" + timeStamp + ".jpg";
 
-        String tempPath = PicturePicker.getInstance().getGlobalConfig().getCacheFolderPath();
-
-        if (TextUtils.isEmpty(tempPath)) {
-
-            return new File(createTakePhotoFolderPath(context), pictureFileName).getAbsolutePath();
-        } else {
-            return new File(tempPath, pictureFileName).getAbsolutePath();
-        }
-
-
+        return new File(createTakePhotoFolderPath(context), pictureFileName).getAbsolutePath();
     }
 
 

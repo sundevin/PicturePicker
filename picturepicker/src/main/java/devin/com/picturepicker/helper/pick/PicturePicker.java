@@ -1,4 +1,4 @@
-package devin.com.picturepicker.helper;
+package devin.com.picturepicker.helper.pick;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devin.com.picturepicker.activity.PictureGridActivity;
+import devin.com.picturepicker.helper.PickerGlobalConfig;
 import devin.com.picturepicker.javabean.PictureItem;
 
 /**
@@ -110,7 +111,6 @@ public class PicturePicker {
     }
 
     public PickerGlobalConfig getGlobalConfig() {
-
         return globalConfig;
     }
 
