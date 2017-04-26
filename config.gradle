@@ -1,0 +1,6 @@
+ext {
+    plugin = [
+            maven      : 'com.github.dcendents.android-maven',
+            bintray    : 'com.jfrog.bintray'
+    ]
+}

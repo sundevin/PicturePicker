@@ -16,8 +16,6 @@ import devin.com.picturepicker.helper.crop.CropOptions;
 import devin.com.picturepicker.utils.Utils;
 import devin.com.picturepicker.view.CropImageView;
 
-import static android.graphics.BitmapFactory.decodeFile;
-
 public class PictureCropActivity extends BaseActivity implements CropImageView.OnBitmapSaveCompleteListener {
 
     public static final String EXTRA_NAME_CROP_IMG_PATH = "cropImgPath";
@@ -76,7 +74,7 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
         //缩放图片
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        decodeFile(imagePath, options);
+        BitmapFactory. decodeFile(imagePath, options);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         options.inSampleSize = calculateInSampleSize(options, displayMetrics.widthPixels, displayMetrics.heightPixels);
         options.inJustDecodeBounds = false;
