@@ -98,11 +98,19 @@ public class MainActivity extends AppCompatActivity {
                 if (checkedId == R.id.rb_multi) {
                     seekBar.setEnabled(true);
                     cbCanPreview.setEnabled(true);
-                } else {
+                    cbShowCamera.setEnabled(true);
+                } else if (checkedId == R.id.rb_single) {
                     seekBar.setProgress(1);
                     seekBar.setEnabled(false);
                     cbCanPreview.setChecked(false);
                     cbCanPreview.setEnabled(false);
+                } else if (checkedId == R.id.rb_just_take_photo) {
+                    seekBar.setProgress(1);
+                    seekBar.setEnabled(false);
+                    cbCanPreview.setChecked(false);
+                    cbCanPreview.setEnabled(false);
+                    cbShowCamera.setChecked(false);
+                    cbShowCamera.setEnabled(false);
                 }
             }
         });
@@ -131,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PickOptions options = new PickOptions.Builder()
+                        .setJustTakePhoto(rgPickType.getCheckedRadioButtonId() == R.id.rb_just_take_photo)
                         .setMultiMode(rgPickType.getCheckedRadioButtonId() == R.id.rb_multi)
                         .setPickMaxCount(seekBar.getProgress())
                         .setCanPreviewImg(cbCanPreview.isChecked())

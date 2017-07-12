@@ -9,6 +9,8 @@ import java.io.Serializable;
 
 public class PickOptions implements Serializable {
 
+    private boolean justTakePhoto;
+
     private int pickMaxCount ;
     private boolean multiMode ;
 
@@ -16,6 +18,7 @@ public class PickOptions implements Serializable {
     private boolean canPreviewImg;
 
     private PickOptions(Builder builder) {
+        this.justTakePhoto = builder.justTakePhoto;
         this.pickMaxCount = builder.pickMaxCount;
         this.multiMode = builder.multiMode;
         this.showCamera = builder.showCamera;
@@ -25,6 +28,9 @@ public class PickOptions implements Serializable {
     private PickOptions() {
     }
 
+    public boolean isJustTakePhoto() {
+        return justTakePhoto;
+    }
 
     public int getPickMaxCount() {
         return pickMaxCount;
@@ -48,7 +54,7 @@ public class PickOptions implements Serializable {
     }
 
     public static class Builder implements Serializable {
-
+        private boolean justTakePhoto;
         private int pickMaxCount = 9;
         private boolean multiMode = true;
         private boolean showCamera = true;
@@ -58,10 +64,13 @@ public class PickOptions implements Serializable {
         }
 
         public PickOptions build() {
-
             return new PickOptions(this);
         }
 
+        public Builder setJustTakePhoto(boolean justTakePhoto) {
+            this.justTakePhoto = justTakePhoto;
+            return this;
+        }
 
         public Builder setPickMaxCount(int pickMaxCount) {
             this.pickMaxCount = pickMaxCount;

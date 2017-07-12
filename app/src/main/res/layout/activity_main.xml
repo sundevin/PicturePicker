@@ -36,6 +36,14 @@
                 android:checked="true"
                 android:text="多选" />
 
+            <RadioButton
+                android:id="@+id/rb_just_take_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+
+                android:text="只可拍照" />
+
         </RadioGroup>
 
 

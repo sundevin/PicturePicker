@@ -107,6 +107,11 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
             picturePicker.setPickPictureOptions((PickOptions) savedInstanceState.getSerializable("pickPictureOptions"));
         }
 
+        if (picturePicker.getPickPictureOptions().isJustTakePhoto()) {
+            openCamera();
+            return;
+        }
+
         setContentView(R.layout.activity_picture_grid);
         assignViews();
         setListener();
@@ -120,9 +125,7 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         }
 
         refreshTitleBarCompleteBtnText(0);
-
         listPopupWindow = initFolderListPopupWindow();
-
         scanAllPictureFolder();
     }
 

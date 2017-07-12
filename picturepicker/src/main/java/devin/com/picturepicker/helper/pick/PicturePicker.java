@@ -191,8 +191,8 @@ public class PicturePicker {
      * @param listener
      */
     public void unregisterPictureSelectedListener(OnPictureSelectedListener listener) {
-        if (listener != null)
+        if (listener != null) {
             pictureSelectedListeners.remove(listener);
+        }
     }
-
 }

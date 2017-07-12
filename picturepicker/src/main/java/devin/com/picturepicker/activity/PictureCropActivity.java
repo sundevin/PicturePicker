@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 
 import devin.com.picturepicker.R;
@@ -57,8 +59,10 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
         cvCropImage.setFocusWidth(cropOptions.getFocusWidth());
         cvCropImage.setFocusHeight(cropOptions.getFocusHeight());
 
-        String imgPath = getIntent().getStringExtra("imgPath");
-        cvCropImage.setImageBitmap(createBitmap(imgPath));
+        final String imgPath = getIntent().getStringExtra("imgPath");
+
+//        cvCropImage.setImageBitmap(createBitmap(imgPath));
+        Glide.with(PictureCropActivity.this).load(imgPath).into(cvCropImage);
 
         titleBarHelper.getCompleteButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +70,8 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
                 cvCropImage.saveBitmapToFile(new File(Utils.createTakePhotoFolderPath(getApplication())), cropOptions.getOutPutX(), cropOptions.getOutPutY(), cropOptions.isSaveRectangle());
             }
         });
-        cvCropImage.setOnBitmapSaveCompleteListener(this);
+        cvCropImage.setOnBitmapSaveCompleteListener(PictureCropActivity.this);
+
     }
 
 
@@ -74,7 +79,7 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
         //缩放图片
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory. decodeFile(imagePath, options);
+        BitmapFactory.decodeFile(imagePath, options);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         options.inSampleSize = calculateInSampleSize(options, displayMetrics.widthPixels, displayMetrics.heightPixels);
         options.inJustDecodeBounds = false;
@@ -106,4 +111,6 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
     @Override
     public void onBitmapSaveError(File file) {
     }
+
+
 }

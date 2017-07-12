@@ -25,6 +25,8 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -460,7 +462,18 @@ public class CropImageView extends AppCompatImageView {
      */
     public Bitmap getCropBitmap(int expectWidth, int exceptHeight, boolean isSaveRectangle) {
         if (expectWidth <= 0 || exceptHeight < 0) return null;
-        Bitmap srcBitmap = ((BitmapDrawable) getDrawable()).getBitmap();
+
+        Bitmap srcBitmap = null;
+        Drawable drawable = getDrawable();
+        if (drawable instanceof BitmapDrawable) {
+            srcBitmap = ((BitmapDrawable) drawable).getBitmap();
+        } else if (drawable instanceof GlideBitmapDrawable) {
+            srcBitmap=  ((GlideBitmapDrawable) drawable).getBitmap();
+        }
+
+        if (srcBitmap==null) {
+            return null;
+        }
         srcBitmap = rotate(srcBitmap, sumRotateLevel * 90);  //最好用level，因为角度可能不是90的整数
         return makeCropBitmap(srcBitmap, mFocusRect, getImageMatrixRect(), expectWidth, exceptHeight, isSaveRectangle);
     }
