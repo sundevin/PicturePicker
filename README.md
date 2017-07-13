@@ -27,6 +27,16 @@
 
 ### 更新日志
 
+
+- 1.0.2
+    ```
+     2017/7/13
+
+     修复在“只拍照不可选图”模式下打开相机后取消拍照，或者拍照后舍弃图片返回时页面空白的bug；
+     修复裁剪图片时在部分机型上crash的问题
+
+    ```
+
 - 1.0.1
     ```
      2017/7/12
@@ -40,7 +50,7 @@
 1,gradle
 ```
 dependencies {
-  compile 'com.sundevin:picturepicker:1.0.1'
+  compile 'com.sundevin:picturepicker:1.0.2'
 }
 ```
 
