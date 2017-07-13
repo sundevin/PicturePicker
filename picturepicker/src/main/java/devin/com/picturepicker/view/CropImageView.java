@@ -605,7 +605,7 @@ public class CropImageView extends AppCompatImageView {
             outputStream = getContext().getContentResolver().openOutputStream(Uri.fromFile(saveFile));
             if (outputStream != null) croppedImage.compress(outputFormat, 90, outputStream);
             Message.obtain(mHandler, SAVE_SUCCESS, saveFile).sendToTarget();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             Message.obtain(mHandler, SAVE_ERROR, saveFile).sendToTarget();
         } finally {

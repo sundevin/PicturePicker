@@ -187,17 +187,28 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == OPEN_CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {//拍照返回
-            File file = new File(takePhotoPath);
-            PictureItem pictureItem = new PictureItem();
-            pictureItem.pictureAbsPath = takePhotoPath;
-            pictureItem.pictureSize = file.length();
-            pictureItem.pictureName = file.getName();
-            ArrayList<PictureItem> pictureItems = new ArrayList<>();
-            pictureItems.add(pictureItem);
-            PicturePreviewActivity.startPicturePreviewActivity(this, pictureItems, 0, PreviewAction.PREVIEW_CAMERA_IMAGE, PREVIEW_IMAGE_REQUEST_CODE);
-        } else if (requestCode == PREVIEW_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            setResult();
+
+        if (requestCode == OPEN_CAMERA_REQUEST_CODE) {//拍照返回
+
+            if (resultCode == Activity.RESULT_OK) {
+                File file = new File(takePhotoPath);
+                PictureItem pictureItem = new PictureItem();
+                pictureItem.pictureAbsPath = takePhotoPath;
+                pictureItem.pictureSize = file.length();
+                pictureItem.pictureName = file.getName();
+                ArrayList<PictureItem> pictureItems = new ArrayList<>();
+                pictureItems.add(pictureItem);
+                PicturePreviewActivity.startPicturePreviewActivity(this, pictureItems, 0, PreviewAction.PREVIEW_CAMERA_IMAGE, PREVIEW_IMAGE_REQUEST_CODE);
+            } else if (resultCode == Activity.RESULT_CANCELED && picturePicker.getPickPictureOptions().isJustTakePhoto()) {
+                finish();
+            }
+
+        } else if (requestCode == PREVIEW_IMAGE_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                setResult();
+            } else if (resultCode == Activity.RESULT_CANCELED && picturePicker.getPickPictureOptions().isJustTakePhoto()) {
+                finish();
+            }
         }
     }
 
