@@ -21,6 +21,7 @@ import android.os.Message;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -468,13 +469,17 @@ public class CropImageView extends AppCompatImageView {
         if (drawable instanceof BitmapDrawable) {
             srcBitmap = ((BitmapDrawable) drawable).getBitmap();
         } else if (drawable instanceof GlideBitmapDrawable) {
-            srcBitmap=  ((GlideBitmapDrawable) drawable).getBitmap();
+            srcBitmap = ((GlideBitmapDrawable) drawable).getBitmap();
         }
-
-        if (srcBitmap==null) {
+        Log.e("-------111", "srcBitmap==null------" + (srcBitmap == null));
+        if (srcBitmap == null) {
             return null;
         }
         srcBitmap = rotate(srcBitmap, sumRotateLevel * 90);  //最好用level，因为角度可能不是90的整数
+        Log.e("-------222", "srcBitmap==null------" + (srcBitmap == null));
+        if (srcBitmap == null) {
+            return null;
+        }
         return makeCropBitmap(srcBitmap, mFocusRect, getImageMatrixRect(), expectWidth, exceptHeight, isSaveRectangle);
     }
 
@@ -520,16 +525,17 @@ public class CropImageView extends AppCompatImageView {
      * @return 裁剪后的图片的Bitmap
      */
     private Bitmap makeCropBitmap(Bitmap bitmap, RectF focusRect, RectF imageMatrixRect, int expectWidth, int exceptHeight, boolean isSaveRectangle) {
-        float scale = imageMatrixRect.width() / bitmap.getWidth();
-        int left = (int) ((focusRect.left - imageMatrixRect.left) / scale);
-        int top = (int) ((focusRect.top - imageMatrixRect.top) / scale);
-        int width = (int) (focusRect.width() / scale);
-        int height = (int) (focusRect.height() / scale);
 
-        if (left < 0) left = 0;
-        if (top < 0) top = 0;
-        if (left + width > bitmap.getWidth()) width = bitmap.getWidth() - left;
-        if (top + height > bitmap.getHeight()) height = bitmap.getHeight() - top;
+            float scale = imageMatrixRect.width() / bitmap.getWidth();
+            int left = (int) ((focusRect.left - imageMatrixRect.left) / scale);
+            int top = (int) ((focusRect.top - imageMatrixRect.top) / scale);
+            int width = (int) (focusRect.width() / scale);
+            int height = (int) (focusRect.height() / scale);
+
+            if (left < 0) left = 0;
+            if (top < 0) top = 0;
+            if (left + width > bitmap.getWidth()) width = bitmap.getWidth() - left;
+            if (top + height > bitmap.getHeight()) height = bitmap.getHeight() - top;
 
         try {
             bitmap = Bitmap.createBitmap(bitmap, left, top, width, height);
@@ -548,9 +554,11 @@ public class CropImageView extends AppCompatImageView {
                     bitmap = circleBitmap;
                 }
             }
-        } catch (OutOfMemoryError e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Log.e("-------444", "bitmap==null------" + (bitmap == null));
         return bitmap;
     }
 
@@ -564,6 +572,7 @@ public class CropImageView extends AppCompatImageView {
         if (mSaving) return;
         mSaving = true;
         final Bitmap croppedImage = getCropBitmap(expectWidth, exceptHeight, isSaveRectangle);
+        Log.e("-------333", "croppedImage==null------" + (croppedImage == null));
         Bitmap.CompressFormat outputFormat = Bitmap.CompressFormat.JPEG;
         File saveFile = createFile(folder, "IMG_", ".jpg");
         if (mStyle == CropImageView.Style.CIRCLE && !isSaveRectangle) {
@@ -605,6 +614,7 @@ public class CropImageView extends AppCompatImageView {
             outputStream = getContext().getContentResolver().openOutputStream(Uri.fromFile(saveFile));
             if (outputStream != null) croppedImage.compress(outputFormat, 90, outputStream);
             Message.obtain(mHandler, SAVE_SUCCESS, saveFile).sendToTarget();
+            croppedImage.recycle();
         } catch (Exception ex) {
             ex.printStackTrace();
             Message.obtain(mHandler, SAVE_ERROR, saveFile).sendToTarget();
@@ -618,7 +628,7 @@ public class CropImageView extends AppCompatImageView {
             }
         }
         mSaving = false;
-        croppedImage.recycle();
+
     }
 
     private static class InnerHandler extends Handler {

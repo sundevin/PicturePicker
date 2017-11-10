@@ -1,7 +1,6 @@
 package devin.com.picturepicker.activity;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -240,7 +239,12 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
     }
 
 
-    public static void startPicturePreviewActivity(Fragment fragment, List<PictureItem> pictureItems, int startPosition, PreviewAction action, int requestCode) {
+    public static void startPicturePreviewActivity(android.app.Fragment fragment, List<PictureItem> pictureItems, int startPosition, PreviewAction action, int requestCode) {
+        Intent intent = createIntent(fragment.getActivity(), pictureItems, startPosition, action);
+        fragment.startActivityForResult(intent, requestCode);
+    }
+
+    public static void startPicturePreviewActivity(android.support.v4.app.Fragment fragment, List<PictureItem> pictureItems, int startPosition, PreviewAction action, int requestCode) {
         Intent intent = createIntent(fragment.getActivity(), pictureItems, startPosition, action);
         fragment.startActivityForResult(intent, requestCode);
     }

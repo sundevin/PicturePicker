@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.View;
 
@@ -33,7 +32,13 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
     }
 
 
-    public static void startPictureCropActivity(Fragment fragment, String imgPath, CropOptions cropOptions, int requestCode) {
+    public static void startPictureCropActivity(android.app.Fragment fragment, String imgPath, CropOptions cropOptions, int requestCode) {
+        Intent intent = new Intent(fragment.getActivity(), PictureCropActivity.class);
+        intent.putExtra("imgPath", imgPath);
+        intent.putExtra("CropOptions", cropOptions);
+        fragment.startActivityForResult(intent, requestCode);
+    }
+    public static void startPictureCropActivity(android.support.v4.app.Fragment fragment, String imgPath, CropOptions cropOptions, int requestCode) {
         Intent intent = new Intent(fragment.getActivity(), PictureCropActivity.class);
         intent.putExtra("imgPath", imgPath);
         intent.putExtra("CropOptions", cropOptions);

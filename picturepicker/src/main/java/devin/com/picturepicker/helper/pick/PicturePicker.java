@@ -1,7 +1,6 @@
 package devin.com.picturepicker.helper.pick;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
@@ -51,7 +50,6 @@ public class PicturePicker {
      * @param requestCode
      */
     public void startPickPicture(Activity activity, int requestCode) {
-
         startPickPicture(activity, requestCode, PickOptions.getDefaultOptions());
 
     }
@@ -69,17 +67,25 @@ public class PicturePicker {
 
     }
 
-
-    public void startPickPicture(Fragment fragment, int requestCode) {
-
+    public void startPickPicture(android.app.Fragment fragment, int requestCode) {
         startPickPicture(fragment, requestCode, PickOptions.getDefaultOptions());
-
     }
 
-    public void startPickPicture(Fragment fragment, int requestCode, PickOptions options) {
+    public void startPickPicture(android.app.Fragment fragment, int requestCode, PickOptions options) {
+        checkConfiguration();
+        this.pickPictureOptions = options;
+        Intent intent = new Intent(fragment.getActivity(), PictureGridActivity.class);
+        fragment.startActivityForResult(intent, requestCode);
+    }
 
+
+
+    public void startPickPicture(android.support.v4.app.Fragment fragment, int requestCode) {
+        startPickPicture(fragment, requestCode, PickOptions.getDefaultOptions());
+    }
+
+    public void startPickPicture(android.support.v4.app.Fragment fragment, int requestCode, PickOptions options) {
        checkConfiguration();
-
         this.pickPictureOptions = options;
         Intent intent = new Intent(fragment.getActivity(), PictureGridActivity.class);
         fragment.startActivityForResult(intent, requestCode);

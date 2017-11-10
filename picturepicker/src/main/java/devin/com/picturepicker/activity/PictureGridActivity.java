@@ -177,12 +177,7 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    private void setResult() {
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_RESULT_PICK_IMAGES, (Serializable) picturePicker.getSelectedPictureList());
-        setResult(PICK_IMAGE_RESULT_CODE, intent);
-        finish();
-    }
+
 
 
     @Override
@@ -196,9 +191,17 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
                 pictureItem.pictureAbsPath = takePhotoPath;
                 pictureItem.pictureSize = file.length();
                 pictureItem.pictureName = file.getName();
-                ArrayList<PictureItem> pictureItems = new ArrayList<>();
-                pictureItems.add(pictureItem);
-                PicturePreviewActivity.startPicturePreviewActivity(this, pictureItems, 0, PreviewAction.PREVIEW_CAMERA_IMAGE, PREVIEW_IMAGE_REQUEST_CODE);
+
+                //预览拍摄的照片
+//                ArrayList<PictureItem> pictureItems = new ArrayList<>();
+//                pictureItems.add(pictureItem);
+//                PicturePreviewActivity.startPicturePreviewActivity(this, pictureItems, 0, PreviewAction.PREVIEW_CAMERA_IMAGE, PREVIEW_IMAGE_REQUEST_CODE);
+
+                //直接返回
+                picturePicker.getSelectedPictureList().clear();
+                picturePicker.getSelectedPictureList().add(pictureItem);
+                setResult();
+
             } else if (resultCode == Activity.RESULT_CANCELED && picturePicker.getPickPictureOptions().isJustTakePhoto()) {
                 finish();
             }
@@ -212,6 +215,14 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+
+
+    private void setResult() {
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_RESULT_PICK_IMAGES, (Serializable) picturePicker.getSelectedPictureList());
+        setResult(PICK_IMAGE_RESULT_CODE, intent);
+        finish();
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
