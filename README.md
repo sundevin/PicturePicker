@@ -1,4 +1,8 @@
 # PicturePicker
+
+[![Download](https://api.bintray.com/packages/sundevin/PicturePicker/picturepicker/images/download.svg)](https://bintray.com/sundevin/PicturePicker/picturepicker/_latestVersion)
+[![Lisense](https://img.shields.io/badge/License-Apache%202-lightgrey.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 一个高仿微信朋友圈图片选择的项目
 
 项目为高仿微信图片选择模块，目前可实现图片的单选，多选，拍照，预览，或者只拍照不选图，选择后删除等
@@ -7,9 +11,9 @@
 
 后期将会添加自定义主题
 
-项目参考了其他类似开源项目的部分实现，并针对一些边界问题做了修复，例如初始时无图片或者图片过多导致的问题，并针对特殊机型的拍照carsh问题做了修复，代码更加简洁。  
+项目参考了其他类似开源项目的部分实现，并针对一些边界问题做了修复，例如初始时无图片或者图片过多导致的问题，并针对特殊机型的拍照 crash 问题做了修复，代码更加简洁。
 
- 欢迎star 和 Fork,有优化建议和bug可以提issue,我会及时处理。
+ 欢迎star 和 Fork,有优化建议和 bug 可以提 issue,我会及时处理。
  
 ### 效果演示：
  
@@ -61,7 +65,7 @@
 1,gradle
 ```
 dependencies {
-  compile 'com.sundevin:picturepicker:1.0.2'
+  compile 'com.sundevin:picturepicker:{lastVersion}'
 }
 ```
 
