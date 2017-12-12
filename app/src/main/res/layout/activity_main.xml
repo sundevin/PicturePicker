@@ -78,6 +78,14 @@
             android:checked="true"
             android:text="显示相机按钮" />
 
+        <CheckBox
+            android:id="@+id/cb_showGif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:checked="true"
+            android:text="查找Gif图片" />
+
 
         <Button
             android:id="@+id/button"

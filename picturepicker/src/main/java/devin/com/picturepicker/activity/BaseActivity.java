@@ -2,7 +2,6 @@ package devin.com.picturepicker.activity;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +20,18 @@ public class BaseActivity extends AppCompatActivity {
     private LinearLayout titleBar;
     private FrameLayout flChildViewContent;
 
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        super.setContentView(R.layout.activity_base);
+        assignViews();
+        titleBarHelper = new TitleBarHelper(titleBar);
+        resetTitleBar(titleBarHelper);
+    }
+
+
     private void assignViews() {
         titleBar = (LinearLayout) findViewById(R.id.titleBar);
         flChildViewContent = (FrameLayout) findViewById(R.id.fl_child_view_content);
@@ -29,23 +40,13 @@ public class BaseActivity extends AppCompatActivity {
         flChildViewContent.setLayoutParams(layoutParams);
     }
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.activity_base);
-        assignViews();
-
-        titleBarHelper = new TitleBarHelper(titleBar);
-        resetTitleBar(titleBarHelper);
-
-    }
-
     public void setContentView(@LayoutRes int layoutResID) {
         View view = getLayoutInflater().inflate(layoutResID, null);
         this.setContentView(view);
     }
 
+    @Override
     public void setContentView(View view) {
         flChildViewContent.removeAllViews();
         flChildViewContent.addView(view);
@@ -104,21 +105,6 @@ public class BaseActivity extends AppCompatActivity {
             return ivDelete;
         }
 
-        public void setTitleText(CharSequence text) {
-            tvTitle.setText(text);
-        }
-
-        public void setTitleText(@StringRes int resid) {
-            tvTitle.setText(resid);
-        }
-
-        public void setCompleteButtonText(CharSequence text) {
-            btnComplete.setText(text);
-        }
-
-        public void setCompleteButtonText(@StringRes int resid) {
-            btnComplete.setText(resid);
-        }
     }
 
 }

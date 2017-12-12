@@ -1,4 +1,4 @@
-package devin.com.picturepicker.helper.crop;
+package devin.com.picturepicker.options;
 
 import java.io.Serializable;
 
@@ -54,7 +54,6 @@ public class CropOptions implements Serializable {
     }
 
     public static class Builder implements Serializable {
-
 
         private int outPutX=800;
         private int outPutY=800;

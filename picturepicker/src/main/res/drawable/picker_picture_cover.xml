@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-<!--中间蒙版层，未选中时，为中间向上下渐变，选中时，黑色半透明蒙版-->
-  <item android:state_selected="true">
-    <shape>
+    <!--中间蒙版层，未选中时，为中间向上下渐变，选中时，黑色半透明蒙版-->
+    <item android:state_selected="true">
+        <shape>
 
-      <solid android:color="@color/item_selected_cover"/>
-    </shape>
-  </item>
+            <solid android:color="@color/item_selected_cover" />
+        </shape>
+    </item>
 
-  <item>
-    <shape>
-      <gradient
-          android:startColor="@color/item_unselected_border"
-          android:endColor="@color/item_unselected_border"
-          android:centerX="0.5"
-          android:centerY="0.5"
-          android:centerColor="@color/item_unselected_center"
-          android:angle="90"
-        android:type="linear">
+    <item android:state_selected="false">
+        <shape >
+            <gradient android:angle="90" android:centerColor="@color/item_unselected_center" android:centerX="0.5" android:centerY="0.5" android:endColor="@color/item_unselected_border" android:startColor="@color/item_unselected_border" android:type="linear" />
 
-      </gradient>
-
-    </shape>
-  </item>
+        </shape>
+    </item>
 
 
 </selector>

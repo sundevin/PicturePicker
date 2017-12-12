@@ -20,6 +20,7 @@
             android:id="@+id/iv_folder_cover"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/default_picture" />
 
         <LinearLayout

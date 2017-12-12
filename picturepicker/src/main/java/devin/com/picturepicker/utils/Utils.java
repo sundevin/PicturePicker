@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import devin.com.picturepicker.helper.pick.PicturePicker;
+import devin.com.picturepicker.pick.PicturePicker;
 
 
 /**
@@ -22,7 +22,6 @@ import devin.com.picturepicker.helper.pick.PicturePicker;
 public class Utils {
 
     public static int getScreenWidth(Context context) {
-
         return context.getResources().getDisplayMetrics().widthPixels;
     }
 
@@ -33,26 +32,20 @@ public class Utils {
     public static void setActivityBackgroundAlpha(Activity activity, float alpha) {
 
 //        activity. getWindow().getDecorView().setAlpha(alpha);
-
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
-
         lp.alpha = alpha;
-
         activity.getWindow().setAttributes(lp);
 
     }
 
 
     private static Toast toast;
-
     public static void showToast(Context context, String s) {
-
         if (toast == null) {
-            toast = Toast.makeText(context, s, Toast.LENGTH_SHORT);
+            toast = Toast.makeText(context.getApplicationContext(), s, Toast.LENGTH_SHORT);
         }
         toast.setText(s);
         toast.show();
-
     }
 
     /**
@@ -73,7 +66,6 @@ public class Utils {
 
 
     private static boolean hasSDCard() {
-
         return Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED) && !Environment.isExternalStorageRemovable();
 
@@ -92,17 +84,26 @@ public class Utils {
                 return file.getAbsolutePath();
             }
         }
-
         return context.getFilesDir().getAbsolutePath();
     }
 
     public static String createTakePhotoPath(Context context) {
-
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINESE).format(new Date());
         String pictureFileName = "JPEG_" + timeStamp + ".jpg";
-
         return new File(createTakePhotoFolderPath(context), pictureFileName).getAbsolutePath();
     }
 
+    /**
+     * 是否隐藏状态栏
+     *
+     * @param hide
+     */
+    public static void hideStatusBar(Activity activity,boolean hide) {
+        if (hide) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //隐藏状态栏
+        } else {
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//显示状态栏
+        }
+    }
 
 }

@@ -6,13 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import devin.com.picturepicker.R;
 import devin.com.picturepicker.adapter.viewholder.ItemFolderListHolder;
 import devin.com.picturepicker.javabean.PictureFolder;
+import devin.com.picturepicker.utils.ImageLoader;
 
 import static android.view.View.inflate;
 
@@ -58,20 +57,12 @@ public class PopupFolderListAdapter extends BaseAdapter {
             convertView = inflate(context, R.layout.item_folder_list, null);
             holder = new ItemFolderListHolder(convertView);
             convertView.setTag(holder);
-
-
         } else {
             holder = (ItemFolderListHolder) convertView.getTag();
         }
 
         PictureFolder pictureFolder = pictureFolderList.get(position);
-
-        Glide.with(context)
-                .load(pictureFolder.folderCover.pictureAbsPath)
-                .centerCrop()
-                .placeholder(R.drawable.default_picture)
-                .error(R.drawable.default_picture)
-                .into(holder.getIvFolderCover());
+        ImageLoader.load(context, pictureFolder.folderCover.pictureAbsPath, holder.getIvFolderCover());
 
         holder.getTvFolderName().setText(pictureFolder.folderName);
         holder.getTvPictureCount().setText(context.getResources().getString(R.string.folder_picture_count,pictureFolder.pictureItemList.size()));

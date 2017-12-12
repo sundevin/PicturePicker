@@ -1,7 +1,10 @@
 package com.devin.demo;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,10 +32,10 @@ import devin.com.picturepicker.activity.PictureCropActivity;
 import devin.com.picturepicker.activity.PictureGridActivity;
 import devin.com.picturepicker.activity.PicturePreviewActivity;
 import devin.com.picturepicker.constant.PreviewAction;
-import devin.com.picturepicker.helper.crop.CropOptions;
-import devin.com.picturepicker.helper.pick.PickOptions;
-import devin.com.picturepicker.helper.pick.PicturePicker;
 import devin.com.picturepicker.javabean.PictureItem;
+import devin.com.picturepicker.options.CropOptions;
+import devin.com.picturepicker.options.PickOptions;
+import devin.com.picturepicker.pick.PicturePicker;
 import devin.com.picturepicker.view.CropImageView;
 
 
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private SeekBar seekBar;
     private CheckBox cbCanPreview;
     private CheckBox cbShowCamera;
+    private CheckBox cbShowGif;
     private Button button;
     private EditText etOutPutX;
     private EditText etOutPutY;
@@ -75,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         cbCanPreview = (CheckBox) findViewById(R.id.cb_canPreview);
         cbShowCamera = (CheckBox) findViewById(R.id.cb_showCamera);
+        cbShowGif = (CheckBox) findViewById(R.id.cb_showGif);
         button = (Button) findViewById(R.id.button);
         etOutPutX = (EditText) findViewById(R.id.et_out_put_x);
         etOutPutY = (EditText) findViewById(R.id.et_out_put_y);
@@ -104,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     seekBar.setEnabled(false);
                     cbCanPreview.setChecked(false);
                     cbCanPreview.setEnabled(false);
+                    cbShowCamera.setEnabled(true);
                 } else if (checkedId == R.id.rb_just_take_photo) {
                     seekBar.setProgress(1);
                     seekBar.setEnabled(false);
@@ -121,8 +127,11 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (progress == 0) {
                     seekBar.setProgress(1);
+                    tvMaxCount.setText("1");
+                } else {
+
+                    tvMaxCount.setText(progress + "");
                 }
-                tvMaxCount.setText(progress + "");
             }
 
             @Override
@@ -138,16 +147,24 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 PickOptions options = new PickOptions.Builder()
+                        //是否仅拍照 默认false
                         .setJustTakePhoto(rgPickType.getCheckedRadioButtonId() == R.id.rb_just_take_photo)
+                        //是否可多选 默认true
                         .setMultiMode(rgPickType.getCheckedRadioButtonId() == R.id.rb_multi)
+                        //多选时最大选择数量 默认 9
                         .setPickMaxCount(seekBar.getProgress())
+                        //选择图片时点击是否可查看大图，默认true（多选模式有效）
                         .setCanPreviewImg(cbCanPreview.isChecked())
+                        //选择图片时是否可拍照 默认true
                         .setShowCamera(cbShowCamera.isChecked())
+                        //是否显示 gif ，默认true
+                        .setSelectGif(cbShowGif.isChecked())
                         .build();
 
                 //默认配置
-//                PicturePicker.getInstance().startPickPicture(MainActivity.this, PICK_IMG_REQUEST);
+//        PicturePicker.getInstance().startPickPicture(MainActivity.this, PICK_IMG_REQUEST);
                 PicturePicker.getInstance().startPickPicture(MainActivity.this, PICK_IMG_REQUEST, options);
             }
         });
@@ -158,13 +175,12 @@ public class MainActivity extends AppCompatActivity {
                 if (pictureItemList.isEmpty()) {
                     Toast.makeText(MainActivity.this, "先选图片", Toast.LENGTH_SHORT).show();
                 } else {
-
                     CropOptions cropOptions = new CropOptions.Builder()
                             .setOutPutX(Integer.parseInt(etOutPutX.getText().toString()))
                             .setOutPutY(Integer.parseInt(etOutPutY.getText().toString()))
-                            .setStyle(rbRectangle.isChecked()? CropImageView.Style.RECTANGLE:CropImageView.Style.CIRCLE)
                             .setFocusWidth(Integer.parseInt(etFarmWidth.getText().toString()))
                             .setFocusHeight(Integer.parseInt(etFarmHeight.getText().toString()))
+                            .setStyle(rbRectangle.isChecked() ? CropImageView.Style.RECTANGLE : CropImageView.Style.CIRCLE)
                             .setSaveRectangle(!cbSaveByFarmShape.isSaveEnabled())
                             .build();
 
@@ -222,7 +238,26 @@ public class MainActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PicturePreviewActivity.startPicturePreviewActivity(MainActivity.this, pictureItemList, holder.getAdapterPosition(), PreviewAction.PREVIEW_DELETE, PREVIEW_IMG_REQUEST);
+
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setItems(new CharSequence[]{"仅预览图片", "预览且可删除", "预览且图片可长按"}, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    switch (i) {
+                                        case 0:
+                                            PicturePreviewActivity.startActivityWithOnlyPreview(MainActivity.this, pictureItemList, holder.getAdapterPosition());
+                                            break;
+                                        case 1:
+                                            // 如果是 string list，可直接使用 PicturePreviewActivity.startActivityWithPreviewDel() 方法
+                                            PicturePreviewActivity.startActivity(MainActivity.this, pictureItemList, holder.getAdapterPosition(), PreviewAction.PREVIEW_DELETE, PREVIEW_IMG_REQUEST);
+                                            break;
+                                        case 2:
+                                            Main2Activity.startActivity(MainActivity.this, pictureItemList);
+                                            break;
+
+                                    }
+                                }
+                            }).show();
                 }
             });
         }
@@ -236,8 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (data != null && requestCode == PICK_IMG_REQUEST) {
+        if (data != null && requestCode == PICK_IMG_REQUEST && resultCode == Activity.RESULT_OK) {
             List<PictureItem> tempList = (List<PictureItem>) data.getSerializableExtra(PictureGridActivity.EXTRA_RESULT_PICK_IMAGES);
             pictureItemList.clear();
             pictureItemList.addAll(tempList);
@@ -246,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
             List<PictureItem> tempList = (List<PictureItem>) data.getSerializableExtra(PicturePreviewActivity.EXTRA_RESULT_PREVIEW_IMAGES);
             pictureItemList.retainAll(tempList);
             sampleAdapter.notifyDataSetChanged();
-        } else if (data != null && requestCode == CROP_IMG_REQUEST) {
+        } else if (data != null && requestCode == CROP_IMG_REQUEST && resultCode == Activity.RESULT_OK) {
 
             Toast.makeText(this, "图片已裁剪，点击下方图片查看", Toast.LENGTH_SHORT).show();
 

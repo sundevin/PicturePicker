@@ -1,4 +1,4 @@
-package devin.com.picturepicker.helper.pick;
+package devin.com.picturepicker.pick;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import devin.com.picturepicker.activity.PictureGridActivity;
-import devin.com.picturepicker.helper.PickerGlobalConfig;
+import devin.com.picturepicker.options.PickOptions;
+import devin.com.picturepicker.options.PickerGlobalConfig;
 import devin.com.picturepicker.javabean.PictureItem;
 
 /**
@@ -51,7 +52,6 @@ public class PicturePicker {
      */
     public void startPickPicture(Activity activity, int requestCode) {
         startPickPicture(activity, requestCode, PickOptions.getDefaultOptions());
-
     }
 
     /**
@@ -77,8 +77,6 @@ public class PicturePicker {
         Intent intent = new Intent(fragment.getActivity(), PictureGridActivity.class);
         fragment.startActivityForResult(intent, requestCode);
     }
-
-
 
     public void startPickPicture(android.support.v4.app.Fragment fragment, int requestCode) {
         startPickPicture(fragment, requestCode, PickOptions.getDefaultOptions());
@@ -117,6 +115,9 @@ public class PicturePicker {
     }
 
     public PickerGlobalConfig getGlobalConfig() {
+        if (globalConfig==null) {
+            globalConfig=PickerGlobalConfig.getDefaultOptions();
+        }
         return globalConfig;
     }
 

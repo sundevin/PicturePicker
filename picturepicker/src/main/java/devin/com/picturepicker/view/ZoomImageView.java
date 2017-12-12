@@ -486,8 +486,14 @@ public class ZoomImageView extends AppCompatImageView {
             maxTrans = 0;
         }
 
-        if (trans < minTrans) return -trans + minTrans;
-        if (trans > maxTrans) return -trans + maxTrans;
+        if (trans < minTrans) {
+
+            return -trans + minTrans;
+        }
+        if (trans > maxTrans) {
+
+            return -trans + maxTrans;
+        }
         return 0;
     }
 
@@ -820,7 +826,10 @@ public class ZoomImageView extends AppCompatImageView {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         last.set(curr);
-                        if (fling != null) fling.cancelFling();
+                        if (fling != null) {
+
+                            fling.cancelFling();
+                        }
                         setState(State.DRAG);
                         break;
 
@@ -839,6 +848,8 @@ public class ZoomImageView extends AppCompatImageView {
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_POINTER_UP:
                         setState(State.NONE);
+                        break;
+                    default:
                         break;
                 }
             }

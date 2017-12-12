@@ -31,9 +31,9 @@ import devin.com.picturepicker.adapter.PictureGridAdapter;
 import devin.com.picturepicker.adapter.PopupFolderListAdapter;
 import devin.com.picturepicker.adapter.viewholder.ItemPictureGridHolder;
 import devin.com.picturepicker.constant.PreviewAction;
-import devin.com.picturepicker.helper.pick.PickOptions;
-import devin.com.picturepicker.helper.pick.PicturePicker;
-import devin.com.picturepicker.helper.pick.PictureScanner;
+import devin.com.picturepicker.options.PickOptions;
+import devin.com.picturepicker.pick.PicturePicker;
+import devin.com.picturepicker.pick.PictureScanner;
 import devin.com.picturepicker.javabean.PictureFolder;
 import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.utils.Utils;
@@ -52,10 +52,7 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
      */
     private final int PREVIEW_IMAGE_REQUEST_CODE = 1002;
 
-    /**
-     * 返回选择的图片的结果吗
-     */
-    private final int PICK_IMAGE_RESULT_CODE = 2001;
+
 
     public static final String EXTRA_RESULT_PICK_IMAGES = "extra_result_pick_pictures";
 
@@ -76,26 +73,6 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
     private List<PictureFolder> pictureFolderList = new ArrayList<>();
 
     private ListPopupWindow listPopupWindow;
-
-
-    private void assignViews() {
-        rvPictures = (RecyclerView) findViewById(R.id.rv_pictures);
-        llFootBar = (LinearLayout) findViewById(R.id.ll_foot_bar);
-        btnImgFolder = (TextView) findViewById(R.id.btn_img_folder);
-        btnImgPreview = (Button) findViewById(R.id.btn_img_preview);
-    }
-
-    private void setListener() {
-        btnImgFolder.setOnClickListener(this);
-        btnImgPreview.setOnClickListener(this);
-
-        titleBarHelper.getCompleteButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult();
-            }
-        });
-    }
 
 
     @Override
@@ -129,6 +106,27 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         scanAllPictureFolder();
     }
 
+
+    private void assignViews() {
+        rvPictures = (RecyclerView) findViewById(R.id.rv_pictures);
+        llFootBar = (LinearLayout) findViewById(R.id.ll_foot_bar);
+        btnImgFolder = (TextView) findViewById(R.id.btn_img_folder);
+        btnImgPreview = (Button) findViewById(R.id.btn_img_preview);
+    }
+
+    private void setListener() {
+        btnImgFolder.setOnClickListener(this);
+        btnImgPreview.setOnClickListener(this);
+
+        titleBarHelper.getCompleteButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult();
+            }
+        });
+    }
+
+
     private void initRvPictures() {
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, RECYCLER_VIEW_COLUMN);
@@ -150,7 +148,7 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
                     int realPosition = isShowCamera ? position - 1 : position;
                     if (isMultiMode) {
                         if (isCanPreviewImg) {
-                            PicturePreviewActivity.startPicturePreviewActivity(PictureGridActivity.this, currentPictureItemList, realPosition, PreviewAction.PREVIEW_PICK, PREVIEW_IMAGE_REQUEST_CODE);
+                            PicturePreviewActivity.startActivity(PictureGridActivity.this, currentPictureItemList, realPosition, PreviewAction.PREVIEW_PICK, PREVIEW_IMAGE_REQUEST_CODE);
                         } else {
                             pictureGridAdapter.addOrRemovePicture(currentPictureItemList.get(realPosition), holder);
                         }
@@ -163,6 +161,7 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
+
     /**
      * 打开相机
      */
@@ -173,17 +172,15 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(takePhotoPath)));
             startActivityForResult(intent, OPEN_CAMERA_REQUEST_CODE);
         } else {
-            Utils.showToast(this, "系统不支持拍照");
+            Utils.showToast(this, getResources().getString(R.string.no_camera));
         }
     }
 
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == OPEN_CAMERA_REQUEST_CODE) {//拍照返回
+        //拍照返回
+        if (requestCode == OPEN_CAMERA_REQUEST_CODE) {
 
             if (resultCode == Activity.RESULT_OK) {
                 File file = new File(takePhotoPath);
@@ -195,32 +192,33 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
                 //预览拍摄的照片
 //                ArrayList<PictureItem> pictureItems = new ArrayList<>();
 //                pictureItems.add(pictureItem);
-//                PicturePreviewActivity.startPicturePreviewActivity(this, pictureItems, 0, PreviewAction.PREVIEW_CAMERA_IMAGE, PREVIEW_IMAGE_REQUEST_CODE);
+//                PicturePreviewActivity.startActivity(this, pictureItems, 0, PreviewAction.PREVIEW_CAMERA_IMAGE, PREVIEW_IMAGE_REQUEST_CODE);
 
                 //直接返回
                 picturePicker.getSelectedPictureList().clear();
                 picturePicker.getSelectedPictureList().add(pictureItem);
                 setResult();
 
-            } else if (resultCode == Activity.RESULT_CANCELED && picturePicker.getPickPictureOptions().isJustTakePhoto()) {
+            } else if (resultCode == Activity.RESULT_CANCELED
+                    && picturePicker.getPickPictureOptions().isJustTakePhoto()) {
                 finish();
             }
 
         } else if (requestCode == PREVIEW_IMAGE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 setResult();
-            } else if (resultCode == Activity.RESULT_CANCELED && picturePicker.getPickPictureOptions().isJustTakePhoto()) {
+            } else if (resultCode == Activity.RESULT_CANCELED
+                    && picturePicker.getPickPictureOptions().isJustTakePhoto()) {
                 finish();
             }
         }
     }
 
 
-
     private void setResult() {
         Intent intent = new Intent();
         intent.putExtra(EXTRA_RESULT_PICK_IMAGES, (Serializable) picturePicker.getSelectedPictureList());
-        setResult(PICK_IMAGE_RESULT_CODE, intent);
+        setResult(Activity.RESULT_OK, intent);
         finish();
     }
 
@@ -246,9 +244,11 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
 
         listPopupWindow = new ListPopupWindow(this);
         listPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        listPopupWindow.setAnchorView(llFootBar); //ListPopupWindow总会相对于这个View 锚点
+        //ListPopupWindow总会相对于这个View 锚点
+        listPopupWindow.setAnchorView(llFootBar);
         listPopupWindow.setDropDownGravity(Gravity.BOTTOM);
-        listPopupWindow.setModal(true);  //是否为模态，影响返回键的处理
+        //是否为模态，影响返回键的处理
+        listPopupWindow.setModal(true);
         listPopupWindow.setContentWidth(ListPopupWindow.MATCH_PARENT);
         listPopupWindow.setWidth(ListPopupWindow.MATCH_PARENT);
 
@@ -268,8 +268,10 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
                 PictureFolder pictureFolder = pictureFolderList.get(position);
                 if (!TextUtils.equals(pictureFolder.folderAbsPath, folderListAdapter.getCurrentSelectFolderPath())) {
                     folderListAdapter.notifyDataSetChanged(pictureFolder.folderAbsPath);
-                    setBtnImgFolderText(pictureFolder.folderName);//更新底部文件夹名称
-                    notifyPictureGrid(pictureFolder.pictureItemList);//更新显示的图片
+                    //更新底部文件夹名称
+                    setBtnImgFolderText(pictureFolder.folderName);
+                    //更新显示的图片
+                    notifyPictureGrid(pictureFolder.pictureItemList);
                 }
 
                 listPopupWindow.dismiss();
@@ -376,7 +378,7 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         if (i == R.id.btn_img_folder) {
             showFolderListPopupWindow();
         } else if (i == R.id.btn_img_preview) {
-            PicturePreviewActivity.startPicturePreviewActivity(this, picturePicker.getSelectedPictureList(), 0, PreviewAction.PREVIEW_PICK, PREVIEW_IMAGE_REQUEST_CODE);
+            PicturePreviewActivity.startActivity(this, picturePicker.getSelectedPictureList(), 0, PreviewAction.PREVIEW_PICK, PREVIEW_IMAGE_REQUEST_CODE);
         }
     }
 

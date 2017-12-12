@@ -1,27 +1,31 @@
 package devin.com.picturepicker.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import devin.com.picturepicker.fragment.PreviewPictureFragment;
 import devin.com.picturepicker.R;
 import devin.com.picturepicker.adapter.PicturePreviewAdapter;
 import devin.com.picturepicker.constant.PreviewAction;
-import devin.com.picturepicker.helper.pick.PicturePicker;
 import devin.com.picturepicker.javabean.PictureItem;
+import devin.com.picturepicker.pick.PicturePicker;
 import devin.com.picturepicker.utils.Utils;
 
 public class PicturePreviewActivity extends BaseActivity implements PicturePicker.OnPictureSelectedListener {
@@ -35,7 +39,6 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
     private static List<PictureItem> toLargePictureItems;
 
     private List<PictureItem> pictureItemList;
-    private PicturePreviewAdapter adapter;
     private PicturePicker picturePicker;
 
     private View titleBar;
@@ -43,27 +46,195 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
     private Button titleCompleteButton;
     private ImageView ivDelete;
 
-    private ViewPager vpPicturePreview;
+
     private LinearLayout llFootBar;
     private TextView tvPicturePreviewSelect;
 
     private PreviewAction previewAction;
+    protected PreviewPictureFragment pictureFragment;
 
 
-    private void assignViews() {
-        vpPicturePreview = (ViewPager) findViewById(R.id.vp_picture_preview);
-        llFootBar = (LinearLayout) findViewById(R.id.ll_foot_bar);
-        tvPicturePreviewSelect = (TextView) findViewById(R.id.tv_picture_preview_select);
+    /**
+     * 只预览图片
+     *
+     * @param activity
+     * @param url
+     */
+    public static void startActivityWithOnlyPreview(Activity activity, String url) {
+        List<PictureItem> pictureItems = new ArrayList<>();
+        PictureItem pictureItem = new PictureItem();
+        pictureItem.pictureAbsPath = url;
+        pictureItems.add(pictureItem);
 
+        startActivityWithOnlyPreview(activity, pictureItems, 0);
+    }
+
+    /**
+     * 只预览图片
+     *
+     * @param activity
+     * @param urls
+     * @param currPosition
+     */
+    public static void startActivityWithOnlyPreview(Activity activity, int currPosition, List<String> urls) {
+        List<PictureItem> pictureItems = new ArrayList<>();
+        for (String url : urls) {
+            PictureItem pictureItem = new PictureItem();
+            pictureItem.pictureAbsPath = url;
+            pictureItems.add(pictureItem);
+        }
+        startActivityWithOnlyPreview(activity, pictureItems, currPosition);
+    }
+
+
+    /**
+     * 只预览图片
+     *
+     * @param activity
+     * @param pictureItems
+     * @param currPosition
+     */
+    public static void startActivityWithOnlyPreview(Activity activity, List<PictureItem> pictureItems, int currPosition) {
+        Intent intent = createIntent(activity, pictureItems, currPosition, PreviewAction.ONLY_PREVIEW);
+        activity.startActivity(intent);
+    }
+
+
+    /**
+     * 预览可删除
+     *
+     * @param fragment     android.app.Fragment fragment
+     * @param urls         图片url list
+     * @param currPosition 开始预览的index
+     * @param requestCode  请求码
+     */
+    public static void startActivityWithPreviewDel(android.app.Fragment fragment, List<String> urls, int currPosition, int requestCode) {
+        List<PictureItem> pictureItems = new ArrayList<>();
+        for (String url : urls) {
+            PictureItem pictureItem = new PictureItem();
+            pictureItem.pictureAbsPath = url;
+            pictureItems.add(pictureItem);
+        }
+        Intent intent = createIntent(fragment.getActivity(), pictureItems, currPosition, PreviewAction.PREVIEW_DELETE);
+        fragment.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 预览可删除
+     *
+     * @param fragment     android.support.v4.app.Fragment fragment
+     * @param urls         图片url list
+     * @param currPosition 开始预览的index
+     * @param requestCode  请求码
+     */
+    public static void startActivityWithPreviewDel(android.support.v4.app.Fragment fragment, List<String> urls, int currPosition, int requestCode) {
+        List<PictureItem> pictureItems = new ArrayList<>();
+        for (String url : urls) {
+            PictureItem pictureItem = new PictureItem();
+            pictureItem.pictureAbsPath = url;
+            pictureItems.add(pictureItem);
+        }
+        Intent intent = createIntent(fragment.getActivity(), pictureItems, currPosition, PreviewAction.PREVIEW_DELETE);
+        fragment.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 预览可删除
+     *
+     * @param activity     activity
+     * @param urls         图片url list
+     * @param currPosition 开始预览的index
+     * @param requestCode  请求码
+     */
+    public static void startActivityWithPreviewDel(Activity activity, List<String> urls, int currPosition, int requestCode) {
+        List<PictureItem> pictureItems = new ArrayList<>();
+        for (String url : urls) {
+            PictureItem pictureItem = new PictureItem();
+            pictureItem.pictureAbsPath = url;
+            pictureItems.add(pictureItem);
+        }
+        Intent intent = createIntent(activity, pictureItems, currPosition, PreviewAction.PREVIEW_DELETE);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+
+    /**
+     * 使用者一般用不上此方法
+     *
+     * @param activity     activity
+     * @param pictureItems PictureItem list
+     * @param currPosition 开始预览的index
+     * @param action       打开本页面的意图
+     * @param requestCode  请求码
+     */
+    public static void startActivity(Activity activity, List<PictureItem> pictureItems, int currPosition, PreviewAction action, int requestCode) {
+        Intent intent = createIntent(activity, pictureItems, currPosition, action);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+    private static Intent createIntent(Context context, List<PictureItem> pictureItems, int currPosition, PreviewAction action) {
+        Intent intent = new Intent(context, getClazz());
+        intent.putExtra("currPosition", currPosition);
+        intent.putExtra("previewAction", action);
+
+        if (pictureItems.size() > 1000) {
+            toLargePictureItems = pictureItems;
+        } else {
+            intent.putExtra("pictureItems", (Serializable) pictureItems);
+        }
+        return intent;
+    }
+
+
+    protected static Class<? extends PicturePreviewActivity> getClazz() {
+        return PicturePreviewActivity.class;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_picture_preview);
+        assignViews();
+
+        picturePicker = PicturePicker.getInstance();
+
+        previewAction = (PreviewAction) getIntent().getSerializableExtra("previewAction");
+        initTitleBarAndFootBar(previewAction);
+
+        int currPosition = getIntent().getIntExtra("currPosition", 0);
+        pictureItemList = (List<PictureItem>) getIntent().getSerializableExtra("pictureItems");
+        if (pictureItemList == null) {
+            pictureItemList = toLargePictureItems;
+            toLargePictureItems = null;
+        }
+        pictureFragment = (PreviewPictureFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         int i = titleBar.getLayoutParams().height + Utils.getStatusHeight(this);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) vpPicturePreview.getLayoutParams();
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) pictureFragment.getView().getLayoutParams();
         layoutParams.topMargin = -i;
 
+        pictureFragment.setPictureItems(pictureItemList, currPosition);
+
+        if (currPosition < pictureItemList.size()) {
+            refreshTitleText(currPosition + 1, pictureItemList.size());
+            tvPicturePreviewSelect.setSelected(picturePicker.isSelected(pictureItemList.get(currPosition)));
+        }
+
+        if (previewAction == PreviewAction.ONLY_PREVIEW) {
+            fullScreen(true);
+        }
+        setListener();
+        picturePicker.registerPictureSelectedListener(this);
+
+    }
+
+    private void assignViews() {
+        llFootBar = (LinearLayout) findViewById(R.id.ll_foot_bar);
+        tvPicturePreviewSelect = (TextView) findViewById(R.id.tv_picture_preview_select);
     }
 
     private void setListener() {
 
-        vpPicturePreview.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pictureFragment.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
@@ -79,36 +250,16 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
             public void onPageScrollStateChanged(int state) {
             }
         });
-
-        adapter.setOnPictureClickListener(new PicturePreviewAdapter.OnPictureClickListener() {
+        pictureFragment.setOnPictureClickListener(new PicturePreviewAdapter.OnPictureClickListener() {
             @Override
-            public void onPictureClick() {
-                if (titleBar.getVisibility() == View.VISIBLE) {
-                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) vpPicturePreview.getLayoutParams();
-                    layoutParams.topMargin = 0;
-                    fullScreen(true);
-                    titleBar.setVisibility(View.GONE);
-                    llFootBar.setVisibility(View.GONE);
-                } else {
-                    fullScreen(false);
-                    int i = titleBar.getLayoutParams().height + Utils.getStatusHeight(PicturePreviewActivity.this);
-                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) vpPicturePreview.getLayoutParams();
-                    layoutParams.topMargin = -i;
-
-                    titleBar.setVisibility(View.VISIBLE);
-
-                    if (previewAction == PreviewAction.PREVIEW_PICK) {
-                        llFootBar.setVisibility(View.VISIBLE);
-                    }
-                }
+            public void onPictureClick(int position, String url) {
+                fullScreen(titleBar.getVisibility() == View.VISIBLE);
             }
         });
-
 
         titleCompleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (previewAction == PreviewAction.PREVIEW_CAMERA_IMAGE) {
                     picturePicker.getSelectedPictureList().clear();
                     picturePicker.getSelectedPictureList().addAll(pictureItemList);
@@ -123,24 +274,25 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
             public void onClick(View v) {
 
                 new AlertDialog.Builder(PicturePreviewActivity.this)
-                        .setTitle("提示")
-                        .setMessage("要删除这张照片吗？")
+                        .setTitle(R.string.del_dialog_title)
+                        .setMessage(R.string.del_dialog_msg)
                         .setCancelable(true)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.del_dialog_positive_button, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
                                 if (pictureItemList.size() == 1) {
-                                    pictureItemList.remove(vpPicturePreview.getCurrentItem());
-                                    onBackPressed();
+                                    pictureItemList.remove(pictureFragment.getCurrentItem());
+                                    setResultOnPreviewDelete();
+                                    finish();
                                 } else {
-                                    pictureItemList.remove(vpPicturePreview.getCurrentItem());
-                                    refreshTitleText(vpPicturePreview.getCurrentItem() + 1, pictureItemList.size());
-                                    adapter.notifyDataSetChanged();
+                                    pictureItemList.remove(pictureFragment.getCurrentItem());
+                                    refreshTitleText(pictureFragment.getCurrentItem() + 1, pictureItemList.size());
+                                    pictureFragment.setPictureItems(pictureItemList, pictureFragment.getCurrentItem());
                                 }
                             }
                         })
-                        .setNegativeButton("取消", null)
+                        .setNegativeButton(R.string.del_dialog_negative_button, null)
                         .show();
             }
         });
@@ -151,7 +303,7 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
             public void onClick(View v) {
 
                 if (pictureItemList.size() > 0) {
-                    PictureItem pictureItem = pictureItemList.get(vpPicturePreview.getCurrentItem());
+                    PictureItem pictureItem = pictureItemList.get(pictureFragment.getCurrentItem());
                     boolean isSelected = picturePicker.isSelected(pictureItem);
 
                     if (isSelected) {
@@ -172,42 +324,30 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
 
     }
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_picture_preview);
-        assignViews();
+    protected void resetTitleBar(TitleBarHelper titleBarHelper) {
 
-        picturePicker = PicturePicker.getInstance();
+        titleBarHelper.getBackImageView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setResultOnPreviewDelete();
+                finish();
+            }
+        });
 
-        pictureItemList = (List<PictureItem>) getIntent().getSerializableExtra("pictureItems");
+        titleBar = titleBarHelper.getTitleBarView();
 
-        if (pictureItemList == null) {
-            pictureItemList = toLargePictureItems;
-        }
+        titleTextView = titleBarHelper.getTitleTextView();
+        refreshTitleText(0, 0);
 
-        adapter = new PicturePreviewAdapter(pictureItemList, this);
-        vpPicturePreview.setAdapter(adapter);
-
-        setListener();
-
-        previewAction = (PreviewAction) getIntent().getSerializableExtra("previewAction");
-        initTitleBarAndFootBar(previewAction);
-
-        int startPosition = getIntent().getIntExtra("startPosition", 0);
-        if (startPosition < pictureItemList.size()) {
-            refreshTitleText(startPosition + 1, pictureItemList.size());
-            vpPicturePreview.setCurrentItem(startPosition);
-            tvPicturePreviewSelect.setSelected(picturePicker.isSelected(pictureItemList.get(startPosition)));
-        }
-
-        picturePicker.registerPictureSelectedListener(this);
+        titleCompleteButton = titleBarHelper.getCompleteButton();
+        ivDelete = titleBarHelper.getIvDelete();
 
     }
 
     /**
      * 根据行为初始化titleBar和footBar
+     *
      * @param action
      */
     private void initTitleBarAndFootBar(PreviewAction action) {
@@ -238,58 +378,9 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
         }
     }
 
-
-    public static void startPicturePreviewActivity(android.app.Fragment fragment, List<PictureItem> pictureItems, int startPosition, PreviewAction action, int requestCode) {
-        Intent intent = createIntent(fragment.getActivity(), pictureItems, startPosition, action);
-        fragment.startActivityForResult(intent, requestCode);
-    }
-
-    public static void startPicturePreviewActivity(android.support.v4.app.Fragment fragment, List<PictureItem> pictureItems, int startPosition, PreviewAction action, int requestCode) {
-        Intent intent = createIntent(fragment.getActivity(), pictureItems, startPosition, action);
-        fragment.startActivityForResult(intent, requestCode);
-    }
-
-    public static void startPicturePreviewActivity(Activity activity, List<PictureItem> pictureItems, int startPosition, PreviewAction action, int requestCode) {
-        Intent intent = createIntent(activity, pictureItems, startPosition, action);
-        activity.startActivityForResult(intent, requestCode);
-    }
-
-
-    private static Intent createIntent(Activity activity, List<PictureItem> pictureItems, int startPosition, PreviewAction action) {
-        Intent intent = new Intent(activity, PicturePreviewActivity.class);
-        intent.putExtra("startPosition", startPosition);
-        intent.putExtra("previewAction", action);
-
-        if (pictureItems.size() > 800) {
-            toLargePictureItems = pictureItems;
-        } else {
-            intent.putExtra("pictureItems", (Serializable) pictureItems);
-        }
-        return intent;
-    }
-
-
-    @Override
-    protected void resetTitleBar(TitleBarHelper titleBarHelper) {
-        super.resetTitleBar(titleBarHelper);
-
-        titleBar = titleBarHelper.getTitleBarView();
-        //将背景设为半透明的
-        titleBar.setBackgroundResource(R.color.footBarBackground);
-
-        titleTextView = titleBarHelper.getTitleTextView();
-        refreshTitleText(0, 0);
-
-        titleCompleteButton = titleBarHelper.getCompleteButton();
-
-        ivDelete = titleBarHelper.getIvDelete();
-
-    }
-
     private void refreshTitleText(int position, int size) {
         titleTextView.setText(getString(R.string.img_preview_count, position + "", size + ""));
     }
-
 
     /**
      * 刷新titleBar的完成按钮
@@ -310,47 +401,57 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
         }
     }
 
-
     @Override
     public void onPictureSelected(List<PictureItem> selectedPictureList, PictureItem pictureItem, boolean isSelected) {
         refreshTitleCompleteButton();
     }
 
+
     /**
-     * 是否开启全屏
+     * 是否全屏显示图片
      *
      * @param enable
      */
     private void fullScreen(boolean enable) {
 
         if (enable) {
-            WindowManager.LayoutParams lp = getWindow().getAttributes();
-            lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-            getWindow().setAttributes(lp);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) pictureFragment.getView().getLayoutParams();
+            layoutParams.topMargin = 0;
+            titleBar.setVisibility(View.GONE);
+            Utils.hideStatusBar(this, true);
+            llFootBar.setVisibility(View.GONE);
         } else {
-            WindowManager.LayoutParams lp = getWindow().getAttributes();
-            lp.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            getWindow().setAttributes(lp);
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            Utils.hideStatusBar(this, false);
+            int i = titleBar.getLayoutParams().height + Utils.getStatusHeight(PicturePreviewActivity.this);
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) pictureFragment.getView().getLayoutParams();
+            layoutParams.topMargin = -i;
+            titleBar.setVisibility(View.VISIBLE);
+            if (previewAction == PreviewAction.PREVIEW_PICK) {
+                llFootBar.setVisibility(View.VISIBLE);
+            }
         }
+
     }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        toLargePictureItems = null;
         picturePicker.unregisterPictureSelectedListener(this);
+        Glide.get(this).clearMemory();
     }
 
     @Override
     public void onBackPressed() {
+        setResultOnPreviewDelete();
+        super.onBackPressed();
+    }
+
+    private void setResultOnPreviewDelete() {
         if (previewAction == PreviewAction.PREVIEW_DELETE) {
             Intent intent = new Intent();
             intent.putExtra(EXTRA_RESULT_PREVIEW_IMAGES, (Serializable) pictureItemList);
             setResult(RESULT_OK, intent);
         }
-        super.onBackPressed();
     }
 }

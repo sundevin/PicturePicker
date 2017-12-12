@@ -43,16 +43,12 @@ public class PictureItem implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-
         if (o instanceof PictureItem) {
-
             PictureItem pictureItem = ((PictureItem) o);
-
             return TextUtils.equals(pictureItem.pictureAbsPath, pictureAbsPath)
                     &&
                     pictureItem.pictureAddTime == pictureAddTime;
         }
-
         return super.equals(o);
     }
 }

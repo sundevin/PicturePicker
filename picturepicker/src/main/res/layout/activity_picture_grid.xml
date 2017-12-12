@@ -25,12 +25,12 @@
             android:drawablePadding="4dp"
             android:drawableRight="@drawable/picture_dir_indicator"
             android:ellipsize="end"
+            android:enabled="false"
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:singleLine="true"
             android:text="@string/all_pictures"
-            android:enabled="false"
             android:textColor="@drawable/selector_text_color"
             android:textSize="16sp" />
 
@@ -47,10 +47,10 @@
             android:background="@drawable/selector_back_button_bg"
             android:drawablePadding="4dp"
             android:ellipsize="end"
+            android:enabled="false"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:singleLine="true"
-            android:enabled="false"
             android:text="@string/preview"
             android:textColor="@drawable/selector_text_color"
             android:textSize="16sp" />

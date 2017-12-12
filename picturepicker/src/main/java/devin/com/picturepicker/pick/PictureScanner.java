@@ -1,7 +1,8 @@
-package devin.com.picturepicker.helper.pick;
+package devin.com.picturepicker.pick;
 
 import android.app.Activity;
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
@@ -14,12 +15,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import devin.com.picturepicker.R;
 import devin.com.picturepicker.javabean.PictureFolder;
 import devin.com.picturepicker.javabean.PictureItem;
 
 
 /**
-
  * <p>   Created by Devin Sun on 2016/10/14.
  */
 
@@ -27,20 +28,35 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final int SCANNER_ID = 0;
 
-    private final String[] IMAGE_PROJECTION = {     //查询图片需要的数据列
-            MediaStore.Images.Media.DISPLAY_NAME,   //图片的显示名称  aaa.jpg
-            MediaStore.Images.Media.DATA,           //图片的真实路径  /storage/emulated/0/pp/downloader/wallpaper/aaa.jpg
-            MediaStore.Images.Media.SIZE,           //图片的大小，long型  132492
-            MediaStore.Images.Media.WIDTH,          //图片的宽度，int型  1920
-            MediaStore.Images.Media.HEIGHT,         //图片的高度，int型  1080
-            MediaStore.Images.Media.DATE_ADDED,  //图片被添加的时间，long型  1450518608
-            MediaStore.Images.Media.MIME_TYPE};     //图片的类型     image/jpeg
+    /**
+     * 查询图片需要的数据列
+     */
+    private final String[] IMAGE_PROJECTION = {
+            ////图片的显示名称  aaa.jpg
+            MediaStore.Images.Media.DISPLAY_NAME,
+            //图片的真实路径  /storage/emulated/0/pp/downloader/wallpaper/aaa.jpg
+            MediaStore.Images.Media.DATA,
+            //图片的大小，long型  132492
+            MediaStore.Images.Media.SIZE,
+            //图片的宽度，int型  1920
+            MediaStore.Images.Media.WIDTH,
+            //图片的高度，int型  1080
+            MediaStore.Images.Media.HEIGHT,
+            //图片被添加的时间，long型  1450518608
+            MediaStore.Images.Media.DATE_ADDED,
+            //图片的类型     image/jpeg
+            MediaStore.Images.Media.MIME_TYPE};
 
 
     /**
      * 图片扫描成的回调接口
      */
     public interface OnScanFinishListener {
+        /**
+         * 扫描完成
+         *
+         * @param pictureFolders
+         */
         void onScanFinish(List<PictureFolder> pictureFolders);
     }
 
@@ -50,7 +66,7 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
     private List<PictureFolder> pictureFolderList = new ArrayList<>();
     private LoaderManager loaderManager;
 
-    private Activity activity;
+    private Context context;
     private String scanFolderAbsPath;
     private OnScanFinishListener scanFinishListener;
 
@@ -58,6 +74,11 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
     public PictureScanner() {
     }
 
+    /**
+     * 扫描指定路径下图片
+     *
+     * @param scanFolderAbsPath
+     */
     public PictureScanner(String scanFolderAbsPath) {
         this.scanFolderAbsPath = scanFolderAbsPath;
     }
@@ -69,7 +90,7 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
      */
     public void startScanPicture(Activity activity, OnScanFinishListener scanFinishListener) {
 
-        this.activity = activity;
+        this.context = activity.getApplicationContext();
         this.scanFinishListener = scanFinishListener;
 
         //先停止扫描
@@ -77,14 +98,12 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
 
         loaderManager = activity.getLoaderManager();
         loaderManager.initLoader(SCANNER_ID, null, this);
-
     }
 
     /**
      * 停止扫描
      */
     public void stopScanPicture() {
-
         if (loaderManager != null) {
             loaderManager.destroyLoader(SCANNER_ID);
         }
@@ -93,7 +112,7 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private Loader<Cursor> createLoader() {
 
-        CursorLoader loader = new CursorLoader(activity);
+        CursorLoader loader = new CursorLoader(context);
 
         loader.setUri(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         //要查询的数据
@@ -102,23 +121,28 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
         String selection = MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?";
 
         if (TextUtils.isEmpty(scanFolderAbsPath)) {
-
             loader.setSelection(selection);
-            String selection_args[] = {"image/jpeg", "image/png", "image/jpg", "image/gif"};
-            loader.setSelectionArgs(selection_args);
-
+            String[] selectionArgs;
+            if (PicturePicker.getInstance().getPickPictureOptions().isSelectGif()) {
+                selectionArgs = new String[]{"image/jpeg", "image/png", "image/jpg", "image/gif"};
+            } else {
+                selectionArgs = new String[]{"image/jpeg", "image/png", "image/jpg"};
+            }
+            loader.setSelectionArgs(selectionArgs);
         } else {
-
             selection = selection + " " + MediaStore.Images.Media.DATA + " like '%" + scanFolderAbsPath + "%'";
-            String selection_args[] = {"image/jpeg", "image/png", "image/jpg", "image/gif", scanFolderAbsPath};
-            loader.setSelectionArgs(selection_args);
+            loader.setSelection(selection);
+            String[] selectionArgs;
+            if (PicturePicker.getInstance().getPickPictureOptions().isSelectGif()) {
+                selectionArgs = new String[]{"image/jpeg", "image/png", "image/jpg", "image/gif", scanFolderAbsPath};
+            } else {
+                selectionArgs = new String[]{"image/jpeg", "image/png", "image/jpg", scanFolderAbsPath};
+            }
 
+            loader.setSelectionArgs(selectionArgs);
         }
-        loader.setSelection(selection);
-
         //按加入时间降序排列
         loader.setSortOrder(MediaStore.Images.Media.DATE_ADDED + " DESC");
-
         return loader;
     }
 
@@ -135,14 +159,11 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
         pictureFolderList.clear();
 
         if (data != null) {
-            /**
-             * new一个集合存储所有图片
-             */
+
+            // new一个集合存储所有图片
             List<PictureItem> allPictureList = new ArrayList<>();
 
-            /**
-             * 图片目录路径和图片目录对象的映射
-             */
+            //             图片目录路径和图片目录对象的映射
             ArrayMap<String, PictureFolder> path2PictureFolderMap = new ArrayMap<>();
 
             while (data.moveToNext()) {
@@ -150,10 +171,8 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
                 String picturePath = data.getString(data.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
 
                 if (!TextUtils.isEmpty(picturePath)) {
-
                     File pictureFile = new File(picturePath);
-
-                    if (pictureFile.exists()&&pictureFile.length()!=0) {
+                    if (pictureFile.exists() && pictureFile.length() != 0) {
 
                         PictureItem pictureItem = new PictureItem();
                         pictureItem.pictureAbsPath = picturePath;
@@ -171,7 +190,7 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
                         String parentFilePath = parentFile.getAbsolutePath().toLowerCase();
 
                         //如果图片文件夹已经被存储
-                        if (null!=path2PictureFolderMap.get(parentFilePath)) {
+                        if (null != path2PictureFolderMap.get(parentFilePath)) {
                             path2PictureFolderMap.get(parentFilePath).pictureItemList.add(pictureItem);
                         } else {
                             PictureFolder pictureFolder = new PictureFolder();
@@ -181,40 +200,32 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
                             pictureFolder.pictureItemList.add(pictureItem);
                             //因为扫描时是按照加入时间降序排序，所以第一个图片为最新的，设为封面
                             pictureFolder.folderCover = pictureItem;
-
                             pictureFolderList.add(pictureFolder);
-
                             path2PictureFolderMap.put(parentFilePath, pictureFolder);
                         }
 
                         //把此图片加到“全部图片”里
                         allPictureList.add(pictureItem);
-
                     }
                 }
-
             }
 
             if (allPictureList.size() > 0) {
                 PictureFolder folder = new PictureFolder();
-                folder.folderName = "全部图片";
+                folder.folderName = context.getResources().getString(R.string.all_pictures);
                 folder.pictureItemList = allPictureList;
                 folder.folderCover = allPictureList.get(0);
-
                 pictureFolderList.add(0, folder);
             }
 
             if (scanFinishListener != null) {
                 scanFinishListener.onScanFinish(pictureFolderList);
             }
-
         }
-
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
         loader.stopLoading();
     }
 }

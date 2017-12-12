@@ -21,7 +21,6 @@ import android.os.Message;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -102,7 +101,7 @@ public class CropImageView extends AppCompatImageView {
     private float mMaxScale = MAX_SCALE;//程序根据不同图片的大小，动态得到的最大缩放比
     private boolean isInited = false;   //是否经过了 onSizeChanged 初始化
     private boolean mSaving = false;    //是否正在保存
-    private static Handler mHandler = new InnerHandler();
+    private  Handler mHandler = new InnerHandler();
 
     public CropImageView(Context context) {
         this(context, null);
@@ -471,12 +470,10 @@ public class CropImageView extends AppCompatImageView {
         } else if (drawable instanceof GlideBitmapDrawable) {
             srcBitmap = ((GlideBitmapDrawable) drawable).getBitmap();
         }
-        Log.e("-------111", "srcBitmap==null------" + (srcBitmap == null));
         if (srcBitmap == null) {
             return null;
         }
         srcBitmap = rotate(srcBitmap, sumRotateLevel * 90);  //最好用level，因为角度可能不是90的整数
-        Log.e("-------222", "srcBitmap==null------" + (srcBitmap == null));
         if (srcBitmap == null) {
             return null;
         }
@@ -557,8 +554,6 @@ public class CropImageView extends AppCompatImageView {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Log.e("-------444", "bitmap==null------" + (bitmap == null));
         return bitmap;
     }
 
@@ -572,7 +567,6 @@ public class CropImageView extends AppCompatImageView {
         if (mSaving) return;
         mSaving = true;
         final Bitmap croppedImage = getCropBitmap(expectWidth, exceptHeight, isSaveRectangle);
-        Log.e("-------333", "croppedImage==null------" + (croppedImage == null));
         Bitmap.CompressFormat outputFormat = Bitmap.CompressFormat.JPEG;
         File saveFile = createFile(folder, "IMG_", ".jpg");
         if (mStyle == CropImageView.Style.CIRCLE && !isSaveRectangle) {
@@ -631,7 +625,7 @@ public class CropImageView extends AppCompatImageView {
 
     }
 
-    private static class InnerHandler extends Handler {
+    private  class InnerHandler extends Handler {
         public InnerHandler() {
             super(Looper.getMainLooper());
         }
@@ -653,7 +647,7 @@ public class CropImageView extends AppCompatImageView {
     /**
      * 图片保存完成的监听
      */
-    private static OnBitmapSaveCompleteListener mListener;
+    private  OnBitmapSaveCompleteListener mListener;
 
     public interface OnBitmapSaveCompleteListener {
         void onBitmapSaveSuccess(File file);

@@ -32,14 +32,10 @@ public class PictureFolder implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-
         if (o instanceof PictureFolder){
-
             PictureFolder folder= (PictureFolder) o;
-
             return TextUtils.equals(folder.folderAbsPath,folderAbsPath);
         }
-
         return super.equals(o);
     }
 }

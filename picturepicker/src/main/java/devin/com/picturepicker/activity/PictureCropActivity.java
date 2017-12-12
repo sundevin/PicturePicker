@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import java.io.File;
 
 import devin.com.picturepicker.R;
-import devin.com.picturepicker.helper.crop.CropOptions;
+import devin.com.picturepicker.options.CropOptions;
 import devin.com.picturepicker.utils.Utils;
 import devin.com.picturepicker.view.CropImageView;
 
@@ -22,6 +22,8 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
     public static final String EXTRA_NAME_CROP_IMG_PATH = "cropImgPath";
 
     private CropOptions cropOptions;
+
+    private CropImageView cvCropImage;
 
 
     public static void startPictureCropActivity(Activity activity, String imgPath, CropOptions cropOptions, int requestCode) {
@@ -38,19 +40,13 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
         intent.putExtra("CropOptions", cropOptions);
         fragment.startActivityForResult(intent, requestCode);
     }
+
     public static void startPictureCropActivity(android.support.v4.app.Fragment fragment, String imgPath, CropOptions cropOptions, int requestCode) {
         Intent intent = new Intent(fragment.getActivity(), PictureCropActivity.class);
         intent.putExtra("imgPath", imgPath);
         intent.putExtra("CropOptions", cropOptions);
         fragment.startActivityForResult(intent, requestCode);
     }
-
-    private CropImageView cvCropImage;
-
-    private void assignViews() {
-        cvCropImage = (CropImageView) findViewById(R.id.cv_crop_image);
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +63,8 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
         final String imgPath = getIntent().getStringExtra("imgPath");
 
 //        cvCropImage.setImageBitmap(createBitmap(imgPath));
-        Glide.with(PictureCropActivity.this).load(imgPath).into(cvCropImage);
+        //用glide 可以不用关心图片压缩和角度颠倒问题，asBitmap 使gif只显示第一帧，
+        Glide.with(PictureCropActivity.this).load(imgPath).asBitmap().into(cvCropImage);
 
         titleBarHelper.getCompleteButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +74,10 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
         });
         cvCropImage.setOnBitmapSaveCompleteListener(PictureCropActivity.this);
 
+    }
+
+    private void assignViews() {
+        cvCropImage = (CropImageView) findViewById(R.id.cv_crop_image);
     }
 
 
@@ -91,7 +92,7 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
         return BitmapFactory.decodeFile(imagePath, options);
     }
 
-    public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         int width = options.outWidth;
         int height = options.outHeight;
         int inSampleSize = 1;
@@ -115,6 +116,7 @@ public class PictureCropActivity extends BaseActivity implements CropImageView.O
 
     @Override
     public void onBitmapSaveError(File file) {
+        Utils.showToast(getApplicationContext(), getResources().getString(R.string.corp_picture_error));
     }
 
 

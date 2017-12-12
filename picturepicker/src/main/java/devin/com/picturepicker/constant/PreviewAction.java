@@ -15,6 +15,7 @@ public enum PreviewAction implements Serializable {
     /**
      * 预览相机拍摄的图片
      */
+    @Deprecated
     PREVIEW_CAMERA_IMAGE,
     /**
      * 预览并选择图库相片
