@@ -111,8 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     cbCanPreview.setChecked(false);
                     cbCanPreview.setEnabled(false);
                     cbShowCamera.setEnabled(true);
-                    cbShowGif.setChecked(false);
-                    cbShowGif.setEnabled(false);
+                    cbShowGif.setEnabled(true);
                 } else if (checkedId == R.id.rb_just_take_photo) {
                     seekBar.setProgress(1);
                     seekBar.setEnabled(false);
