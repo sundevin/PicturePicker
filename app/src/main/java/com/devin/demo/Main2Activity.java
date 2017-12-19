@@ -42,7 +42,7 @@ public class Main2Activity extends AppCompatActivity {
                         .setItems(new CharSequence[]{"下载", "取消"}, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Toast.makeText(Main2Activity.this, "下载--" + url, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Main2Activity.this, "模拟下载--" + url, Toast.LENGTH_SHORT).show();
                             }
                         }).show();
                 return true;

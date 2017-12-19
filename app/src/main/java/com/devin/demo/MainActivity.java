@@ -104,12 +104,15 @@ public class MainActivity extends AppCompatActivity {
                     seekBar.setEnabled(true);
                     cbCanPreview.setEnabled(true);
                     cbShowCamera.setEnabled(true);
+                    cbShowGif.setEnabled(true);
                 } else if (checkedId == R.id.rb_single) {
                     seekBar.setProgress(1);
                     seekBar.setEnabled(false);
                     cbCanPreview.setChecked(false);
                     cbCanPreview.setEnabled(false);
                     cbShowCamera.setEnabled(true);
+                    cbShowGif.setChecked(false);
+                    cbShowGif.setEnabled(false);
                 } else if (checkedId == R.id.rb_just_take_photo) {
                     seekBar.setProgress(1);
                     seekBar.setEnabled(false);
@@ -117,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
                     cbCanPreview.setEnabled(false);
                     cbShowCamera.setChecked(false);
                     cbShowCamera.setEnabled(false);
+                    cbShowGif.setChecked(false);
+                    cbShowGif.setEnabled(false);
                 }
             }
         });
@@ -129,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
                     seekBar.setProgress(1);
                     tvMaxCount.setText("1");
                 } else {
-
                     tvMaxCount.setText(progress + "");
                 }
             }
