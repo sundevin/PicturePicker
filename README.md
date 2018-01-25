@@ -24,6 +24,11 @@
  ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/picturepicker-img/4.png)
 
 ### 更新日志
+- 2.0.1
+```
+    2018/01/25
+    修复 Fragment 下选择图片仍需全局初始化的 bug
+```
 - 2.0.0
 ```
     2017/12/12

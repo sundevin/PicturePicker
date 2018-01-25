@@ -72,7 +72,6 @@ public class PicturePicker {
     }
 
     public void startPickPicture(android.app.Fragment fragment, int requestCode, PickOptions options) {
-        checkConfiguration();
         this.pickPictureOptions = options;
         Intent intent = new Intent(fragment.getActivity(), PictureGridActivity.class);
         fragment.startActivityForResult(intent, requestCode);
@@ -83,18 +82,12 @@ public class PicturePicker {
     }
 
     public void startPickPicture(android.support.v4.app.Fragment fragment, int requestCode, PickOptions options) {
-       checkConfiguration();
         this.pickPictureOptions = options;
         Intent intent = new Intent(fragment.getActivity(), PictureGridActivity.class);
         fragment.startActivityForResult(intent, requestCode);
     }
 
 
-    private void checkConfiguration() {
-        if (globalConfig == null) {
-            throw new IllegalStateException(ERROR_NOT_INIT);
-        }
-    }
 
     /**
      * 清理数据
