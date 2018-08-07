@@ -19,6 +19,7 @@
         <activity
             android:name=".activity.PictureCropActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
+
     </application>
 
 </manifest>
