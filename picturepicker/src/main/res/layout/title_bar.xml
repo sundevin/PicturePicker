@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@color/color_303135"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/selector_back_button_bg"
+        android:padding="10dp"
+        android:src="@drawable/icon_back" />
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:text="@string/pick_picture"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btn_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/selector_back_button_bg"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/complete"
+        android:textColor="@drawable/selector_text_color"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/selector_back_button_bg"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:scaleType="center"
+        android:src="@drawable/delete_img"
+        android:visibility="gone" />
+
+</LinearLayout>

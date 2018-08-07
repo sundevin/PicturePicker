@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <RadioGroup
+            android:id="@+id/rg_pick_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_single"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="单选" />
+
+            <RadioButton
+                android:id="@+id/rb_multi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:checked="true"
+                android:text="多选" />
+
+            <RadioButton
+                android:id="@+id/rb_just_take_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+
+                android:text="只可拍照" />
+
+        </RadioGroup>
+
+
+        <TextView
+            android:id="@+id/tv_max_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:max="20"
+            android:progress="9" />
+
+
+        <CheckBox
+            android:id="@+id/cb_canPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:checked="true"
+            android:text="点击item可预览" />
+
+        <CheckBox
+            android:id="@+id/cb_showCamera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:checked="true"
+            android:text="显示相机按钮" />
+
+        <CheckBox
+            android:id="@+id/cb_showGif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:checked="true"
+            android:text="查找Gif图片" />
+
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/color_303135"
+            android:text="选择图片"
+            android:textColor="#fff" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/et_out_put_x"
+                android:layout_width="0dp"
+                android:text="800"
+                android:inputType="number"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="期望输出的图片的宽" />
+
+            <EditText
+                android:id="@+id/et_out_put_y"
+                android:layout_width="0dp"
+                android:inputType="number"
+                android:text="800"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="期望输出的图片的高" />
+
+        </LinearLayout>
+
+
+        <RadioGroup
+            android:id="@+id/rg_farm_shape"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_rectangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="矩形" />
+
+            <RadioButton
+                android:id="@+id/rb_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:checked="true"
+                android:text="圆形" />
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/et_farm_width"
+                android:layout_width="0dp"
+                android:inputType="number"
+                android:text="280"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="裁剪框宽" />
+
+            <EditText
+                android:id="@+id/et_farm_height"
+                android:layout_width="0dp"
+                android:inputType="number"
+                android:text="280"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="裁剪框高" />
+
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cb_save_by_farm_shape"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:checked="true"
+            android:text="是否按裁剪框形状保存图片" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/color_303135"
+            android:text="图片裁剪"
+            android:textColor="#fff" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+
+</ScrollView>
+
