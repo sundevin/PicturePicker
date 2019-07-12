@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import devin.com.picturepicker.R;
+import devin.com.picturepicker.activity.PictureGridActivity;
 import devin.com.picturepicker.adapter.viewholder.ItemPictureGridHolder;
 import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.pick.PicturePicker;
@@ -60,7 +61,7 @@ public class PictureGridAdapter extends RecyclerView.Adapter<ItemPictureGridHold
     public ItemPictureGridHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(activity).inflate(R.layout.item_picture_grid, parent, false);
-        int itemViewWidth = (parent.getRight() - parent.getLeft()) / 3;
+        int itemViewWidth = (parent.getRight() - parent.getLeft()) / PictureGridActivity.RECYCLER_VIEW_COLUMN;
         //设置宽高 使其为正方形
         itemView.setLayoutParams(new RecyclerView.LayoutParams(itemViewWidth, itemViewWidth));
         return new ItemPictureGridHolder(itemView);

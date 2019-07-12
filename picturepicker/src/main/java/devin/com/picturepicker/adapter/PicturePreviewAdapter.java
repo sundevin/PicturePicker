@@ -10,11 +10,12 @@ import java.util.List;
 
 import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.utils.ImageLoader;
-import devin.com.picturepicker.view.ZoomImageView;
+import devin.com.picturepicker.view.photoview.PhotoView;
+import devin.com.picturepicker.view.photoview.PhotoViewAttacher;
 
 /**
  * <p>   Created by Devin Sun on 2016/10/16.
- * <p>   版权@2016北京优闲科技发展有限公司 保留所有权
+ * <p>
  */
 
 public class PicturePreviewAdapter extends PagerAdapter {
@@ -39,7 +40,7 @@ public class PicturePreviewAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
 
-        ZoomImageView pictureView = new ZoomImageView(context);
+        PhotoView pictureView=new PhotoView(context);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         pictureView.setLayoutParams(layoutParams);
 
@@ -47,15 +48,33 @@ public class PicturePreviewAdapter extends PagerAdapter {
 
         ImageLoader.load(context, url, pictureView);
 
-
-        pictureView.setOnClickListener(new View.OnClickListener() {
+        pictureView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onPhotoTap(View view, float x, float y) {
                 if (clickListener != null) {
                     clickListener.onPictureClick(position, url);
                 }
             }
         });
+
+
+        pictureView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
+            @Override
+            public void onViewTap(View view, float x, float y) {
+                if (clickListener != null) {
+                    clickListener.onPictureClick(position, url);
+                }
+            }
+        });
+
+//        pictureView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (clickListener != null) {
+//                    clickListener.onPictureClick(position, url);
+//                }
+//            }
+//        });
         pictureView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -84,9 +103,9 @@ public class PicturePreviewAdapter extends PagerAdapter {
         return POSITION_NONE;
     }
 
-    @Override
-    public void finishUpdate(ViewGroup container) {
-    }
+//    @Override
+//    public void finishUpdate(ViewGroup container) {
+//    }
 
 
     public interface OnPictureClickListener {

@@ -42,7 +42,7 @@
         android:background="@drawable/selector_back_button_bg"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="@string/complete"
+        android:text="@string/complete_button_enable_false"
         android:textColor="@drawable/selector_text_color"
         android:textSize="14sp" />
 

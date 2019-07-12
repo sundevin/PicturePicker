@@ -3,7 +3,6 @@ package devin.com.picturepicker.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -11,8 +10,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import devin.com.picturepicker.pick.PicturePicker;
 
 
 /**
@@ -72,11 +69,6 @@ public class Utils {
     }
 
     public static String createTakePhotoFolderPath(Context context) {
-
-        String tempPath = PicturePicker.getInstance().getGlobalConfig().getCacheFolderPath();
-        if (!TextUtils.isEmpty(tempPath)) {
-            return tempPath;
-        }
 
         if (hasSDCard()) {
             File file = context.getExternalFilesDir(null);

@@ -2,30 +2,31 @@ package devin.com.picturepicker.pick;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import devin.com.picturepicker.activity.PictureGridActivity;
-import devin.com.picturepicker.options.PickOptions;
-import devin.com.picturepicker.options.PickerGlobalConfig;
 import devin.com.picturepicker.javabean.PictureItem;
+import devin.com.picturepicker.options.PickOptions;
+import devin.com.picturepicker.provider.ILanguageProvider;
 
 /**
 
- * <p>   Created by Devin Sun on 2016/10/15.
+ *
+ * @author Devin Sun
+ * @date 2016/10/15
  */
 
 public class PicturePicker {
 
-    private static final String ERROR_NOT_INIT = "PicturePicker must be init with configuration before using";
+    private ILanguageProvider languageProvider;
+
 
     private List<OnPictureSelectedListener> pictureSelectedListeners = new ArrayList<>();
     private List<PictureItem> selectedPictureList = new ArrayList<>();
 
     private static PicturePicker picturePicker;
-    private PickerGlobalConfig globalConfig;
     private PickOptions pickPictureOptions;
 
     private PicturePicker() {
@@ -98,21 +99,6 @@ public class PicturePicker {
         pickPictureOptions=null;
     }
 
-    /**
-     * 初始化全局配置
-     *
-     * @param config
-     */
-    public void init(@NonNull PickerGlobalConfig config) {
-        this.globalConfig = config;
-    }
-
-    public PickerGlobalConfig getGlobalConfig() {
-        if (globalConfig==null) {
-            globalConfig=PickerGlobalConfig.getDefaultOptions();
-        }
-        return globalConfig;
-    }
 
     /**
      * 获取当前的选择配置
@@ -181,8 +167,9 @@ public class PicturePicker {
      * @param listener
      */
     public void registerPictureSelectedListener(OnPictureSelectedListener listener) {
-        if (listener != null)
+        if (listener != null) {
             pictureSelectedListeners.add(listener);
+        }
     }
 
     /**
@@ -194,5 +181,13 @@ public class PicturePicker {
         if (listener != null) {
             pictureSelectedListeners.remove(listener);
         }
+    }
+
+    public ILanguageProvider getLanguageProvider() {
+        return languageProvider;
+    }
+
+    public void setLanguageProvider(ILanguageProvider languageProvider) {
+        this.languageProvider = languageProvider;
     }
 }

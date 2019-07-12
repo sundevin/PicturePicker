@@ -7,6 +7,7 @@
         android:id="@+id/rv_pictures"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/ll_foot_bar"
         android:background="@color/black" />
 
     <LinearLayout

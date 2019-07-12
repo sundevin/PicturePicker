@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--每个节点都支持两个属性：name+path-->
+    <!--path：需要临时授权访问的路径（.代表所有路径）-->
+    <!--name：就是你给这个访问路径起个名字-->
+
+    <!--//context.getFilesDir()-->
+    <files-path
+        name="files"
+        path="." />
+    <!--//context.getCacheDir()-->
+    <cache-path
+        name="cache"
+        path="." />
+    <!--//Environment.getExternalStorageDirectory()-->
+    <external-path
+        name="external_path"
+        path="." />
+    <!--//context.getExternalFilesDirs()-->
+    <external-files-path
+        name="external_files_path"
+        path="." />
+    <!--//getExternalCacheDirs()-->
+    <external-cache-path
+        name="external_cache_path"
+        path="." />
+</paths>

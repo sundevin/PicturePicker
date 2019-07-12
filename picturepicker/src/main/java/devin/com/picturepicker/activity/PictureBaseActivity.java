@@ -1,7 +1,9 @@
 package devin.com.picturepicker.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -11,15 +13,29 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import devin.com.picturepicker.R;
+import java.util.Locale;
 
-public class BaseActivity extends AppCompatActivity {
+import devin.com.picturepicker.R;
+import devin.com.picturepicker.pick.PicturePicker;
+import devin.com.picturepicker.utils.PictureLangUtils;
+
+public class PictureBaseActivity extends AppCompatActivity {
 
     protected TitleBarHelper titleBarHelper;
 
     private LinearLayout titleBar;
     private FrameLayout flChildViewContent;
 
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        if (PicturePicker.getInstance().getLanguageProvider() != null) {
+            Context context = PictureLangUtils.setLanguage(newBase, Locale.ENGLISH);
+            super.attachBaseContext(context);
+        } else {
+            super.attachBaseContext(newBase);
+        }
+    }
 
 
     @Override
@@ -29,6 +45,7 @@ public class BaseActivity extends AppCompatActivity {
         assignViews();
         titleBarHelper = new TitleBarHelper(titleBar);
         resetTitleBar(titleBarHelper);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.color_303135));
     }
 
 

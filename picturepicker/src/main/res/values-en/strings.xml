@@ -1,0 +1,22 @@
+<resources>
+    <string name="complete_button_enable_false">Done</string>
+    <string name="complete_button_enable_true">Done(%1$s/%2$s)</string>
+    <string name="select_limit_tips">You can choose up to %1$s pictures.</string>
+    <string name="img_preview_count">%1$s/%2$s</string>
+    <string name="preview_button_enable_false">Preview</string>
+    <string name="preview_button_enable_true">Preview(%1$s)</string>
+    <string name="all_pictures">All Images</string>
+    <string name="preview">Preview</string>
+    <string name="pick_picture">Select Images</string>
+    <string name="folder_picture_count">%d</string>
+    <string name="pick">Select</string>
+    <string name="crop_picture">Cut</string>
+    <string name="del_dialog_title">Prompt</string>
+    <string name="del_dialog_msg">Do you want to delete this photo?</string>
+    <string name="del_dialog_positive_button">OK</string>
+    <string name="del_dialog_negative_button">Cancel</string>
+    <string name="no_camera">Photography is not supported on current devices</string>
+    <string name="corp_picture_error">Abnormal operation, please try again</string>
+
+
+</resources>

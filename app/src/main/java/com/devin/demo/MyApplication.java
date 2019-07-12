@@ -1,6 +1,13 @@
 package com.devin.demo;
 
 import android.app.Application;
+import android.content.Context;
+
+import java.util.Locale;
+
+import devin.com.picturepicker.pick.PicturePicker;
+import devin.com.picturepicker.provider.ILanguageProvider;
+import devin.com.picturepicker.utils.PictureLangUtils;
 
 /**
  * Created by admin on 2016/10/30.
@@ -8,14 +15,28 @@ import android.app.Application;
 
 public class MyApplication extends Application {
 
+    public static Locale  locale=Locale.ENGLISH;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        Context context = PictureLangUtils.setLanguage(base, Locale.ENGLISH);
+        super.attachBaseContext(context);
+
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
-        //初始化全局配置
-//        PickerGlobalConfig config = new PickerGlobalConfig.Builder()
-//                .setCacheFolderPath("xxxx")//设置拍照的路径，默认sdcard/data/data/package/files
-//                .build();
-//        PicturePicker.getInstance().init(config);
+        PicturePicker.getInstance().setLanguageProvider(new ILanguageProvider() {
+            @Override
+            public Locale getLanguageLocale() {
+
+                return locale;
+            }
+        });
     }
+
+
+
 }

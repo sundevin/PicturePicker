@@ -25,6 +25,15 @@
 
 ### 更新日志
 
+- 2.1.0
+```
+    2019/07/12
+    1，不再支持指定拍照路径
+    2，兼容7.0 FileProvider
+    3，支持中英文切换，兼容8.0
+    4，修复已知bug
+```
+
 - 2.0.2
 ```
     2018/08/04
@@ -60,7 +69,7 @@
 ---
 ### 使用：
 
-适用版本 minSdkVersion 19及以上
+适用版本 minSdkVersion 21及以上
 
 #### 添加依赖 
 
@@ -75,19 +84,21 @@ dependencies {
 2,下载 library,以 module 的方式导入。
 
 #### 权限问题
-图片库只在 `AndroidManifest` 声明了存储和相机权限，暂未适配23及以上的权限系统，如主项目 target >= 23, 请在使用前自行申请相关权限，
+图片库只在 `AndroidManifest` 声明了存储和相机权限，暂未主动申请权限，如主项目 target >= 23, 请在使用前自行申请相关权限，
  
-#### 初始化全局配置（非必须）
+#### 指定语言环境（非必须）
 ```
     @Override
     public void onCreate() {
         super.onCreate();
-        //初始化全局配置(如果不需要指定存储路径，可省略)
-        PickerGlobalConfig config = new PickerGlobalConfig.Builder()
-            .setCacheFolderPath("xxxx")//设置拍照的路径，默认sdcard/data/data/package/files
-            .build();
-        PicturePicker.getInstance().init(config);
-        //...
+        //指定语言环境(如果不需要，可省略)
+        PicturePicker.getInstance().setLanguageProvider(new ILanguageProvider() {
+            @Override
+            public Locale getLanguageLocale() {
+
+                return locale;
+            }
+        });
     }
 ```
 #### 打开图片选择页面

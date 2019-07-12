@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
@@ -31,16 +33,16 @@ import devin.com.picturepicker.adapter.PictureGridAdapter;
 import devin.com.picturepicker.adapter.PopupFolderListAdapter;
 import devin.com.picturepicker.adapter.viewholder.ItemPictureGridHolder;
 import devin.com.picturepicker.constant.PreviewAction;
+import devin.com.picturepicker.javabean.PictureFolder;
+import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.options.PickOptions;
 import devin.com.picturepicker.pick.PicturePicker;
 import devin.com.picturepicker.pick.PictureScanner;
-import devin.com.picturepicker.javabean.PictureFolder;
-import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.utils.Utils;
 
-public class PictureGridActivity extends BaseActivity implements View.OnClickListener, PicturePicker.OnPictureSelectedListener {
+public class PictureGridActivity extends PictureBaseActivity implements View.OnClickListener, PicturePicker.OnPictureSelectedListener {
 
-    public static final int RECYCLER_VIEW_COLUMN = 3;
+    public static final int RECYCLER_VIEW_COLUMN = 4;
 
     /**
      * 打开相机请求码
@@ -51,7 +53,6 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
      * 去预览并选择图片请求码
      */
     private final int PREVIEW_IMAGE_REQUEST_CODE = 1002;
-
 
 
     public static final String EXTRA_RESULT_PICK_IMAGES = "extra_result_pick_pictures";
@@ -169,7 +170,17 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
             takePhotoPath = Utils.createTakePhotoPath(this);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(takePhotoPath)));
+            File file = new File(takePhotoPath);
+            Uri uri = null;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                uri = FileProvider.getUriForFile(this, getPackageName() + ".FileProvider", file);
+            } else {
+                uri = Uri.fromFile(file);
+            }
+
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
             startActivityForResult(intent, OPEN_CAMERA_REQUEST_CODE);
         } else {
             Utils.showToast(this, getResources().getString(R.string.no_camera));
@@ -188,11 +199,6 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
                 pictureItem.pictureAbsPath = takePhotoPath;
                 pictureItem.pictureSize = file.length();
                 pictureItem.pictureName = file.getName();
-
-                //预览拍摄的照片
-//                ArrayList<PictureItem> pictureItems = new ArrayList<>();
-//                pictureItems.add(pictureItem);
-//                PicturePreviewActivity.startActivity(this, pictureItems, 0, PreviewAction.PREVIEW_CAMERA_IMAGE, PREVIEW_IMAGE_REQUEST_CODE);
 
                 //直接返回
                 picturePicker.getSelectedPictureList().clear();
@@ -300,6 +306,9 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
                 if (pictureFolderList.size() > 0) {
                     notifyPictureGrid(pictureFolderList.get(0).pictureItemList);
                     setBtnImgFolderText(pictureFolderList.get(0).folderName);
+                    if (folderListAdapter!=null) {
+                        folderListAdapter.notifyDataSetChanged(pictureFolderList.get(0).folderAbsPath);
+                    }
                 } else {
                     currentPictureItemList.clear();
                     notifyPictureGrid(currentPictureItemList);
@@ -332,7 +341,7 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
      */
     private void setBtnImgFolderText(String folderName) {
         if (TextUtils.isEmpty(folderName)) {
-            btnImgFolder.setText(getString(R.string.all_img_folder_name));
+            btnImgFolder.setText(getString(R.string.all_pictures));
             btnImgFolder.setEnabled(false);
         } else {
             btnImgFolder.setText(folderName);
@@ -388,7 +397,7 @@ public class PictureGridActivity extends BaseActivity implements View.OnClickLis
     private void showFolderListPopupWindow() {
 
         int itemViewHeight = folderListAdapter.getItemViewHeight();
-        int maxHeight = (rvPictures.getHeight() - llFootBar.getHeight()) - itemViewHeight / 2;
+        int maxHeight = rvPictures.getHeight() - itemViewHeight / 2;
         int realHeight = itemViewHeight * folderListAdapter.getCount();
         listPopupWindow.setHeight(Math.min(maxHeight, realHeight));
         Utils.setActivityBackgroundAlpha(PictureGridActivity.this, 0.5f);

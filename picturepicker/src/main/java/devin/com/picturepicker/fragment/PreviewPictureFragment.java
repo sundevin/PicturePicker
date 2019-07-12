@@ -15,6 +15,7 @@ import java.util.List;
 import devin.com.picturepicker.R;
 import devin.com.picturepicker.adapter.PicturePreviewAdapter;
 import devin.com.picturepicker.javabean.PictureItem;
+import devin.com.picturepicker.view.PhotoViewPager;
 
 
 /**
@@ -23,7 +24,7 @@ import devin.com.picturepicker.javabean.PictureItem;
 public class PreviewPictureFragment extends Fragment {
 
 
-    private ViewPager vpPicturePreview;
+    private PhotoViewPager vpPicturePreview;
     private List<PictureItem> pictureItems = new ArrayList<>();
     private PicturePreviewAdapter adapter;
 
@@ -31,7 +32,6 @@ public class PreviewPictureFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_preview_picture, container, false);
     }
 
@@ -44,7 +44,7 @@ public class PreviewPictureFragment extends Fragment {
     }
 
     private void initView(View view) {
-        vpPicturePreview = (ViewPager) view.findViewById(R.id.vp_picture_preview);
+        vpPicturePreview = (PhotoViewPager) view.findViewById(R.id.vp_picture_preview);
     }
 
 

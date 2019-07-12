@@ -17,7 +17,7 @@ import devin.com.picturepicker.options.CropOptions;
 import devin.com.picturepicker.utils.Utils;
 import devin.com.picturepicker.view.CropImageView;
 
-public class PictureCropActivity extends BaseActivity implements CropImageView.OnBitmapSaveCompleteListener {
+public class PictureCropActivity extends PictureBaseActivity implements CropImageView.OnBitmapSaveCompleteListener {
 
     public static final String EXTRA_NAME_CROP_IMG_PATH = "cropImgPath";
 

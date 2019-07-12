@@ -90,7 +90,7 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
      */
     public void startScanPicture(Activity activity, OnScanFinishListener scanFinishListener) {
 
-        this.context = activity.getApplicationContext();
+        this.context = activity.getApplication();
         this.scanFinishListener = scanFinishListener;
 
         //先停止扫描

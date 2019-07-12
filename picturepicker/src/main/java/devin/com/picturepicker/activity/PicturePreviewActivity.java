@@ -28,7 +28,7 @@ import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.pick.PicturePicker;
 import devin.com.picturepicker.utils.Utils;
 
-public class PicturePreviewActivity extends BaseActivity implements PicturePicker.OnPictureSelectedListener {
+public class PicturePreviewActivity extends PictureBaseActivity implements PicturePicker.OnPictureSelectedListener {
 
     public static final String EXTRA_RESULT_PREVIEW_IMAGES = "extra_result_preview_pictures";
 
@@ -260,10 +260,6 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
         titleCompleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (previewAction == PreviewAction.PREVIEW_CAMERA_IMAGE) {
-                    picturePicker.getSelectedPictureList().clear();
-                    picturePicker.getSelectedPictureList().addAll(pictureItemList);
-                }
                 setResult(RESULT_OK);
                 finish();
             }
@@ -358,12 +354,6 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
                 ivDelete.setVisibility(View.GONE);
                 llFootBar.setVisibility(View.GONE);
                 break;
-            case PREVIEW_CAMERA_IMAGE:
-                titleCompleteButton.setVisibility(View.VISIBLE);
-                refreshTitleCompleteButton();
-                ivDelete.setVisibility(View.GONE);
-                llFootBar.setVisibility(View.GONE);
-                break;
             case PREVIEW_PICK:
                 titleCompleteButton.setVisibility(View.VISIBLE);
                 refreshTitleCompleteButton();
@@ -374,6 +364,8 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
                 titleCompleteButton.setVisibility(View.GONE);
                 ivDelete.setVisibility(View.VISIBLE);
                 llFootBar.setVisibility(View.GONE);
+                break;
+            default:
                 break;
         }
     }
@@ -386,9 +378,7 @@ public class PicturePreviewActivity extends BaseActivity implements PicturePicke
      * 刷新titleBar的完成按钮
      */
     private void refreshTitleCompleteButton() {
-        if (previewAction == PreviewAction.PREVIEW_CAMERA_IMAGE) {
-            titleCompleteButton.setText(getString(R.string.complete_button_enable_false));
-        } else if (previewAction == PreviewAction.PREVIEW_PICK) {
+        if (previewAction == PreviewAction.PREVIEW_PICK) {
             int currentSelectedCount = picturePicker.getCurrentSelectedCount();
             int maxCount = picturePicker.getPickPictureOptions().getPickMaxCount();
             if (currentSelectedCount == 0) {

@@ -1,10 +1,11 @@
 package com.devin.demo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import devin.com.picturepicker.activity.PictureCropActivity;
 import devin.com.picturepicker.activity.PictureGridActivity;
@@ -36,6 +38,7 @@ import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.options.CropOptions;
 import devin.com.picturepicker.options.PickOptions;
 import devin.com.picturepicker.pick.PicturePicker;
+import devin.com.picturepicker.utils.PictureLangUtils;
 import devin.com.picturepicker.view.CropImageView;
 
 
@@ -193,6 +196,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        Context context = PictureLangUtils.setLanguage(newBase, MyApplication.locale);
+        super.attachBaseContext(context);
+    }
+
 
 
     @Override
