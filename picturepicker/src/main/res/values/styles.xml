@@ -1,5 +1,10 @@
 <resources>
 
-
+    <!-- 透明全屏 -->
+    <style name="TranslateActivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
 </resources>

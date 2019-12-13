@@ -285,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
         if (data != null && requestCode == PICK_IMG_REQUEST && resultCode == Activity.RESULT_OK) {
             List<PictureItem> tempList = (List<PictureItem>) data.getSerializableExtra(PictureGridActivity.EXTRA_RESULT_PICK_IMAGES);
             pictureItemList.clear();

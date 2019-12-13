@@ -30,7 +30,7 @@ public class PictureBaseActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         if (PicturePicker.getInstance().getLanguageProvider() != null) {
-            Context context = PictureLangUtils.setLanguage(newBase, Locale.ENGLISH);
+            Context context = PictureLangUtils.setLanguage(newBase,PicturePicker.getInstance().getLanguageProvider().getLanguageLocale());
             super.attachBaseContext(context);
         } else {
             super.attachBaseContext(newBase);

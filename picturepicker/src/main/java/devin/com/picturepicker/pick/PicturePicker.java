@@ -6,7 +6,7 @@ import android.content.Intent;
 import java.util.ArrayList;
 import java.util.List;
 
-import devin.com.picturepicker.activity.PictureGridActivity;
+import devin.com.picturepicker.activity.CheckPermissionActivity;
 import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.options.PickOptions;
 import devin.com.picturepicker.provider.ILanguageProvider;
@@ -63,7 +63,7 @@ public class PicturePicker {
     public void startPickPicture(Activity activity, int requestCode, PickOptions options) {
 
         this.pickPictureOptions = options;
-        Intent intent = new Intent(activity, PictureGridActivity.class);
+        Intent intent = new Intent(activity, CheckPermissionActivity.class);
         activity.startActivityForResult(intent, requestCode);
 
     }
@@ -74,7 +74,7 @@ public class PicturePicker {
 
     public void startPickPicture(android.app.Fragment fragment, int requestCode, PickOptions options) {
         this.pickPictureOptions = options;
-        Intent intent = new Intent(fragment.getActivity(), PictureGridActivity.class);
+        Intent intent = new Intent(fragment.getActivity(), CheckPermissionActivity.class);
         fragment.startActivityForResult(intent, requestCode);
     }
 
@@ -84,7 +84,7 @@ public class PicturePicker {
 
     public void startPickPicture(android.support.v4.app.Fragment fragment, int requestCode, PickOptions options) {
         this.pickPictureOptions = options;
-        Intent intent = new Intent(fragment.getActivity(), PictureGridActivity.class);
+        Intent intent = new Intent(fragment.getActivity(), CheckPermissionActivity.class);
         fragment.startActivityForResult(intent, requestCode);
     }
 

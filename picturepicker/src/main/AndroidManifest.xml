@@ -8,6 +8,10 @@
 
     <application>
         <activity
+            android:name=".activity.CheckPermissionActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/TranslateActivity" />
+        <activity
             android:name=".activity.PictureGridActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
@@ -20,7 +24,6 @@
             android:name=".activity.PictureCropActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
 
-
         <provider
             android:name=".provider.PicFileProvider"
             android:authorities="${applicationId}.FileProvider"
@@ -30,8 +33,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/pic_files_path" />
         </provider>
-
-
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.devin.demo;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
 
 import java.util.Locale;
 
@@ -19,7 +20,7 @@ public class MyApplication extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        Context context = PictureLangUtils.setLanguage(base, Locale.ENGLISH);
+        Context context = PictureLangUtils.setLanguage(base,locale);
         super.attachBaseContext(context);
 
     }

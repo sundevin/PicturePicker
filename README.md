@@ -24,6 +24,11 @@
  ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/picturepicker-img/4.png)
 
 ### 更新日志
+- 2.1.1
+```
+    2019/12/13
+    内部处理相机和存储权限的申请，外部调用时不用再先申请相关权限。
+```
 
 - 2.1.0
 ```
@@ -154,6 +159,7 @@ PictureCropActivity.startPictureCropActivity(MainActivity.this, pictureItemList.
 ```
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode,resultCode,data);
     if (data != null && requestCode == CROP_IMG_REQUEST && resultCode == Activity.RESULT_OK) {
         String cropImgPath = data.getStringExtra(PictureCropActivity.EXTRA_NAME_CROP_IMG_PATH);
         //...
