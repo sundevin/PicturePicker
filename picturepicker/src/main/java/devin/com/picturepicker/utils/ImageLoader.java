@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import devin.com.picturepicker.R;
 
@@ -17,10 +18,14 @@ import devin.com.picturepicker.R;
 public class ImageLoader {
 
     public static void load(Context context, String path, ImageView imageView) {
+        RequestOptions requestOptions =
+                new RequestOptions()
+                        .placeholder(R.drawable.default_picture)
+                        .error(R.drawable.default_picture);
         Glide.with(context)
                 .load(path)
-                .placeholder(R.drawable.default_picture)
-                .error(R.drawable.default_picture)
+                .apply(requestOptions)
                 .into(imageView);
+
     }
 }

@@ -38,6 +38,7 @@ import devin.com.picturepicker.javabean.PictureItem;
 import devin.com.picturepicker.options.CropOptions;
 import devin.com.picturepicker.options.PickOptions;
 import devin.com.picturepicker.pick.PicturePicker;
+import devin.com.picturepicker.utils.ImageLoader;
 import devin.com.picturepicker.utils.PictureLangUtils;
 import devin.com.picturepicker.view.CropImageView;
 
@@ -243,11 +244,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final SampleHolder holder, int position) {
 
-            Glide.with(getApplication())
-                    .load(pictureItemList.get(position).pictureAbsPath)
-                    .placeholder(R.drawable.default_picture)
-                    .centerCrop()
-                    .into((ImageView) holder.itemView);
+
+            ImageLoader.load(getApplication(),pictureItemList.get(position).pictureAbsPath,(ImageView) holder.itemView);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

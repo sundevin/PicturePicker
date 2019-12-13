@@ -25,7 +25,6 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 
 import java.io.File;
 import java.io.IOException;
@@ -467,8 +466,6 @@ public class CropImageView extends AppCompatImageView {
         Drawable drawable = getDrawable();
         if (drawable instanceof BitmapDrawable) {
             srcBitmap = ((BitmapDrawable) drawable).getBitmap();
-        } else if (drawable instanceof GlideBitmapDrawable) {
-            srcBitmap = ((GlideBitmapDrawable) drawable).getBitmap();
         }
         if (srcBitmap == null) {
             return null;
