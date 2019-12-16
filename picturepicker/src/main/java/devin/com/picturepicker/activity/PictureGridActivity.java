@@ -333,6 +333,7 @@ public class PictureGridActivity extends PictureBaseActivity implements View.OnC
         }
 
         pictureGridAdapter.notifyDataSetChanged();
+        rvPictures.scrollToPosition(0);
     }
 
 
