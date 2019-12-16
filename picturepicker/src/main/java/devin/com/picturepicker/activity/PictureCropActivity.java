@@ -64,7 +64,7 @@ public class PictureCropActivity extends PictureBaseActivity implements CropImag
 
 //        cvCropImage.setImageBitmap(createBitmap(imgPath));
         //用glide 可以不用关心图片压缩和角度颠倒问题，asBitmap 使gif只显示第一帧，
-        Glide.with(PictureCropActivity.this).asGif().load(imgPath).into(cvCropImage);
+        Glide.with(PictureCropActivity.this).asBitmap().load(imgPath).into(cvCropImage);
 
         titleBarHelper.getCompleteButton().setOnClickListener(new View.OnClickListener() {
             @Override
