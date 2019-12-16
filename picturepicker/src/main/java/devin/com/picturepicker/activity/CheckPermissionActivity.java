@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import java.io.Serializable;
 
+import devin.com.picturepicker.R;
 import devin.com.picturepicker.pick.PicturePicker;
 
 public class CheckPermissionActivity extends AppCompatActivity {
@@ -56,9 +57,9 @@ public class CheckPermissionActivity extends AppCompatActivity {
 
     private void showPermissionDeniedDialog() {
         new AlertDialog.Builder(this)
-                .setMessage("请授予【存储】和【相机】权限后重试")
+                .setMessage(R.string.permission_desc)
                 .setCancelable(false)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.del_dialog_positive_button, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();

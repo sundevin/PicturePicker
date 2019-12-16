@@ -17,6 +17,7 @@
     <string name="del_dialog_negative_button">Cancel</string>
     <string name="no_camera">Photography is not supported on current devices</string>
     <string name="corp_picture_error">Abnormal operation, please try again</string>
+    <string name="permission_desc">Please grant [storage] and [camera] permission and try again</string>
 
 
 </resources>
