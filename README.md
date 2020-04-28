@@ -24,9 +24,9 @@
  ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/picturepicker-img/4.png)
 
 ### 更新日志
-- 2.1.3
+- 2.1.5
 ```
-    2019/12/16
+    2020/04/28
         1,内部处理相机和存储权限的申请，外部调用时不用再先申请相关权限。
         2,更新glide版本
         3,修复不能裁剪的bug

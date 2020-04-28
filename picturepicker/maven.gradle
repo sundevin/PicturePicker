@@ -2,7 +2,7 @@ apply plugin: rootProject.ext.plugin.maven
 apply plugin: rootProject.ext.plugin.bintray
 
 // 项目引用的版本号，比如compile 'com.sundevin:picturepicker:1.0.0'中的1.0.0就是这里配置的。
-version = "2.1.3"
+version = "2.1.5"
 // 唯一包名，比如compile 'com.sundevin:picturepicke:1.0.0'中的com.sundevin。
 group = "com.sundevin"
 
