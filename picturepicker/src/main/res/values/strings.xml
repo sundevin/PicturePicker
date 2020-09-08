@@ -17,7 +17,7 @@
     <string name="del_dialog_negative_button">取消</string>
     <string name="no_camera">当前系统不支持拍照</string>
     <string name="corp_picture_error">裁剪图片异常，请重试</string>
-    <string name="permission_desc">P请授予【存储】和【相机】权限后重试</string>
+    <string name="pick_permission_desc">请授予【存储】和【相机】权限后重试</string>
 
 
 </resources>
