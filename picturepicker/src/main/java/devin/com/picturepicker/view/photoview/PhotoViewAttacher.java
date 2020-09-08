@@ -50,16 +50,16 @@ import java.lang.ref.WeakReference;
 public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, VersionedGestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener, ViewTreeObserver.OnGlobalLayoutListener {
 
-    static final String LOG_TAG = "PhotoViewAttacher";
+    private static final String LOG_TAG = "PhotoViewAttacher";
 
     // let debug flag be dynamic, but still Proguard can be used to remove from
     // release builds
-    static final boolean DEBUG = Log.isLoggable(LOG_TAG, Log.DEBUG);
+    private static final boolean DEBUG = Log.isLoggable(LOG_TAG, Log.DEBUG);
 
-    static final int EDGE_NONE = -1;
-    static final int EDGE_LEFT = 0;
-    static final int EDGE_RIGHT = 1;
-    static final int EDGE_BOTH = 2;
+    private static final int EDGE_NONE = -1;
+    private static final int EDGE_LEFT = 0;
+    private static final int EDGE_RIGHT = 1;
+    private static final int EDGE_BOTH = 2;
 
     public static final float DEFAULT_MAX_SCALE = 2.0f;
     // public static final float DEFAULT_MID_SCALE = 1.75f;
@@ -198,11 +198,6 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
     }
 
     /**
-     * Clean-up the resources attached to this object. This needs to be called
-     * when the ImageView is no longer used. A good example is from
-     * {@link View#onDetachedFromWindow()} or from
-     * {@link android.app.Activity#onDestroy()}. This is automatically called if
-     * you are using {@link PhotoView.co.senab.photoview.PhotoView}.
      */
     @SuppressLint("NewApi")
     @SuppressWarnings("deprecation")
@@ -293,6 +288,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
         return mScaleType;
     }
 
+    @Override
     public final boolean onDoubleTap(MotionEvent ev) {
         try {
             float scale = getScale();
@@ -314,11 +310,13 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
         return true;
     }
 
+    @Override
     public final boolean onDoubleTapEvent(MotionEvent e) {
         // Wait for the confirmed onDoubleTap() instead
         return false;
     }
 
+    @Override
     public final void onDrag(float dx, float dy) {
         if (DEBUG) {
             Log.d(LOG_TAG, String.format("onDrag: dx: %.2f. dy: %.2f", dx, dy));
@@ -392,6 +390,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
         }
     }
 
+    @Override
     public final void onScale(float scaleFactor, float focusX, float focusY) {
         if (DEBUG) {
             Log.d(LOG_TAG, String.format("onScale: scale: %.2f. fX: %.2f. fY: %.2f", scaleFactor, focusX, focusY));
@@ -866,6 +865,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener, Vers
             }
         }
 
+        @Override
         public void run() {
             ImageView imageView = getImageView();
 
