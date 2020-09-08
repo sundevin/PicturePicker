@@ -57,7 +57,7 @@ public class CheckPermissionActivity extends AppCompatActivity {
 
     private void showPermissionDeniedDialog() {
         new AlertDialog.Builder(this)
-                .setMessage(R.string.permission_desc)
+                .setMessage(R.string.pick_permission_desc)
                 .setCancelable(false)
                 .setPositiveButton(R.string.del_dialog_positive_button, new DialogInterface.OnClickListener() {
                     @Override
