@@ -24,6 +24,13 @@
  ![效果](https://raw.githubusercontent.com/sundevin/Screenshot/master/picturepicker-img/4.png)
 
 ### 更新日志
+
+- 2.1.6
+```
+    2020/09/08
+        1,优化内部细节
+```
+
 - 2.1.5
 ```
     2020/04/28
