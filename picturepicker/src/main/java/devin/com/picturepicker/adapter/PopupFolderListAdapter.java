@@ -77,7 +77,7 @@ public class PopupFolderListAdapter extends BaseAdapter {
     }
 
     /**
-     * 获取单个itemView的高度(感觉处理的不太好。。。)
+     * 获取单个itemView的高度
      *
      * @return
      */

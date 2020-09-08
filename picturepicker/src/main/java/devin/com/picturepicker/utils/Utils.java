@@ -25,6 +25,8 @@ public class Utils {
 
     /**
      * 设置屏幕透明度  0.0不透明 ~ 1.0透明
+     * @param activity
+     * @param alpha
      */
     public static void setActivityBackgroundAlpha(Activity activity, float alpha) {
 
@@ -47,6 +49,8 @@ public class Utils {
 
     /**
      * 获得状态栏的高度
+     * @param context
+     * @return
      */
     public static int getStatusHeight(Context context) {
         int statusHeight = -1;
@@ -87,14 +91,16 @@ public class Utils {
 
     /**
      * 是否隐藏状态栏
-     *
+     * @param activity
      * @param hide
      */
     public static void hideStatusBar(Activity activity,boolean hide) {
         if (hide) {
-            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); //隐藏状态栏
+            //隐藏状态栏
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         } else {
-            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//显示状态栏
+            ////显示状态栏
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
     }
 
