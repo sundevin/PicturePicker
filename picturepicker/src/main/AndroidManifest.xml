@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="devin.com.picturepicker">
+    package="com.devin.picturepicker">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
 
     <application>
         <activity
             android:name=".activity.CheckPermissionActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false"
             android:theme="@style/TranslateActivity" />
         <activity
             android:name=".activity.PictureGridActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false" />
         <activity
             android:name=".activity.PictureBaseActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false" />
         <activity
             android:name=".activity.PicturePreviewActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false" />
         <activity
             android:name=".activity.PictureCropActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false" />
 
         <provider
             android:name=".provider.PicFileProvider"

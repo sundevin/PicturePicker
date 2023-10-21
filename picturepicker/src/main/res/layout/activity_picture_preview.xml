@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        class="devin.com.picturepicker.fragment.PreviewPictureFragment"
+        class="com.devin.picturepicker.fragment.PreviewPictureFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
