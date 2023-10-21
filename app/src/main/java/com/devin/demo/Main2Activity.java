@@ -5,19 +5,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Locale;
 
-import devin.com.picturepicker.adapter.PicturePreviewAdapter;
-import devin.com.picturepicker.fragment.PreviewPictureFragment;
-import devin.com.picturepicker.javabean.PictureItem;
-import devin.com.picturepicker.utils.PictureLangUtils;
-import devin.com.picturepicker.utils.Utils;
+import com.devin.picturepicker.adapter.PicturePreviewAdapter;
+import com.devin.picturepicker.fragment.PreviewPictureFragment;
+import com.devin.picturepicker.javabean.PictureItem;
+import com.devin.picturepicker.utils.PictureLangUtils;
+import com.devin.picturepicker.utils.Utils;
 
 public class Main2Activity extends AppCompatActivity {
 
@@ -42,7 +41,7 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         Utils.hideStatusBar(this, true);
-        PreviewPictureFragment fragment = (PreviewPictureFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        PreviewPictureFragment fragment = (PreviewPictureFragment) getFragmentManager().findFragmentById(R.id.fragment);
         List<PictureItem> pictureItemList = (List<PictureItem>) getIntent().getSerializableExtra("pictureItemList");
         fragment.setPictureItems(pictureItemList, 0);
         fragment.setOnPictureLongClickListener(new PicturePreviewAdapter.OnPictureLongClickListener() {

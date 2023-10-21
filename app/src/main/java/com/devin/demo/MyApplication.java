@@ -6,9 +6,9 @@ import android.content.res.Configuration;
 
 import java.util.Locale;
 
-import devin.com.picturepicker.pick.PicturePicker;
-import devin.com.picturepicker.provider.ILanguageProvider;
-import devin.com.picturepicker.utils.PictureLangUtils;
+import com.devin.picturepicker.pick.PicturePicker;
+import com.devin.picturepicker.provider.ILanguageProvider;
+import com.devin.picturepicker.utils.PictureLangUtils;
 
 /**
  * Created by admin on 2016/10/30.

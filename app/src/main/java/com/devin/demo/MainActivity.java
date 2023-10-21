@@ -6,9 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,23 +24,20 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import devin.com.picturepicker.activity.PictureCropActivity;
-import devin.com.picturepicker.activity.PictureGridActivity;
-import devin.com.picturepicker.activity.PicturePreviewActivity;
-import devin.com.picturepicker.constant.PreviewAction;
-import devin.com.picturepicker.javabean.PictureItem;
-import devin.com.picturepicker.options.CropOptions;
-import devin.com.picturepicker.options.PickOptions;
-import devin.com.picturepicker.pick.PicturePicker;
-import devin.com.picturepicker.utils.ImageLoader;
-import devin.com.picturepicker.utils.PictureLangUtils;
-import devin.com.picturepicker.view.CropImageView;
+import com.devin.picturepicker.activity.PictureCropActivity;
+import com.devin.picturepicker.activity.PictureGridActivity;
+import com.devin.picturepicker.activity.PicturePreviewActivity;
+import com.devin.picturepicker.constant.PreviewAction;
+import com.devin.picturepicker.javabean.PictureItem;
+import com.devin.picturepicker.options.CropOptions;
+import com.devin.picturepicker.options.PickOptions;
+import com.devin.picturepicker.pick.PicturePicker;
+import com.devin.picturepicker.utils.ImageLoader;
+import com.devin.picturepicker.utils.PictureLangUtils;
+import com.devin.picturepicker.view.CropImageView;
 
 
 public class MainActivity extends AppCompatActivity {
