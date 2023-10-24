@@ -41,7 +41,7 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
         Utils.hideStatusBar(this, true);
-        PreviewPictureFragment fragment = (PreviewPictureFragment) getFragmentManager().findFragmentById(R.id.fragment);
+        PreviewPictureFragment fragment = (PreviewPictureFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         List<PictureItem> pictureItemList = (List<PictureItem>) getIntent().getSerializableExtra("pictureItemList");
         fragment.setPictureItems(pictureItemList, 0);
         fragment.setOnPictureLongClickListener(new PicturePreviewAdapter.OnPictureLongClickListener() {
