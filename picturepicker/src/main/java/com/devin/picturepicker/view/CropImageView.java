@@ -56,7 +56,7 @@ public class CropImageView extends AppCompatImageView {
         RECTANGLE, CIRCLE
     }
 
-    private Style[] styles = {Style.RECTANGLE, Style.CIRCLE};
+    private final Style[] styles = {Style.RECTANGLE, Style.CIRCLE};
 
     private int mMaskColor = 0xAF000000;   //暗色
     private int mBorderColor = 0xAA808080; //焦点框的边框颜色

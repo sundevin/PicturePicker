@@ -109,10 +109,10 @@ public class PictureGridActivity extends PictureBaseActivity implements View.OnC
 
 
     private void assignViews() {
-        rvPictures = (RecyclerView) findViewById(R.id.rv_pictures);
-        llFootBar = (LinearLayout) findViewById(R.id.ll_foot_bar);
-        btnImgFolder = (TextView) findViewById(R.id.btn_img_folder);
-        btnImgPreview = (Button) findViewById(R.id.btn_img_preview);
+        rvPictures = findViewById(R.id.rv_pictures);
+        llFootBar = findViewById(R.id.ll_foot_bar);
+        btnImgFolder = findViewById(R.id.btn_img_folder);
+        btnImgPreview = findViewById(R.id.btn_img_preview);
     }
 
     private void setListener() {

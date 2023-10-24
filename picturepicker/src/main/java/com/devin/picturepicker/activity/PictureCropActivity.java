@@ -37,7 +37,7 @@ public class PictureCropActivity extends PictureBaseActivity implements CropImag
 
 
     public static void startPictureCropActivity(android.app.Fragment fragment, String imgPath, CropOptions cropOptions, int requestCode) {
-        Intent intent = new Intent(fragment.getActivity(), PictureCropActivity.class);
+        Intent intent = new Intent(fragment.getContext(), PictureCropActivity.class);
         intent.putExtra("imgPath", imgPath);
         intent.putExtra("CropOptions", cropOptions);
         fragment.startActivityForResult(intent, requestCode);
@@ -79,7 +79,7 @@ public class PictureCropActivity extends PictureBaseActivity implements CropImag
     }
 
     private void assignViews() {
-        cvCropImage = (CropImageView) findViewById(R.id.cv_crop_image);
+        cvCropImage = findViewById(R.id.cv_crop_image);
     }
 
 

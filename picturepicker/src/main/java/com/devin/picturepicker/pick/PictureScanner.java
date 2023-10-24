@@ -1,14 +1,19 @@
 package com.devin.picturepicker.pick;
 
-import android.app.Activity;
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Loader;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
 import androidx.collection.ArrayMap;
+import androidx.loader.content.CursorLoader;
+
 import android.text.TextUtils;
 
 import java.io.File;
@@ -63,7 +68,7 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
     /**
      * 所有的目录集合
      */
-    private List<PictureFolder> pictureFolderList = new ArrayList<>();
+    private final List<PictureFolder> pictureFolderList = new ArrayList<>();
     private LoaderManager loaderManager;
 
     private Context context;
@@ -88,7 +93,7 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
      *
      * @param scanFinishListener 扫描完成监听
      */
-    public void startScanPicture(Activity activity, OnScanFinishListener scanFinishListener) {
+    public void startScanPicture(AppCompatActivity activity, OnScanFinishListener scanFinishListener) {
 
         this.context = activity.getApplication();
         this.scanFinishListener = scanFinishListener;
@@ -96,7 +101,7 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
         //先停止扫描
         stopScanPicture();
 
-        loaderManager = activity.getLoaderManager();
+        loaderManager = LoaderManager.getInstance(activity);
         loaderManager.initLoader(SCANNER_ID, null, this);
     }
 
@@ -147,6 +152,7 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
     }
 
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
@@ -154,7 +160,7 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
 
         pictureFolderList.clear();
 

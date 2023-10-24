@@ -48,8 +48,8 @@ public class PictureBaseActivity extends AppCompatActivity {
 
 
     private void assignViews() {
-        titleBar = (LinearLayout) findViewById(R.id.titleBar);
-        flChildViewContent = (FrameLayout) findViewById(R.id.fl_child_view_content);
+        titleBar = findViewById(R.id.titleBar);
+        flChildViewContent = findViewById(R.id.fl_child_view_content);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(flChildViewContent.getLayoutParams());
         layoutParams.addRule(RelativeLayout.BELOW, R.id.titleBar);
         flChildViewContent.setLayoutParams(layoutParams);
@@ -94,10 +94,10 @@ public class PictureBaseActivity extends AppCompatActivity {
 
         private TitleBarHelper(View titleBarView) {
             this.titleBarView = titleBarView;
-            ivBack = (ImageView) titleBarView.findViewById(R.id.iv_back);
-            tvTitle = (TextView) titleBarView.findViewById(R.id.tv_title);
-            btnComplete = (Button) titleBarView.findViewById(R.id.btn_complete);
-            ivDelete = (ImageView) titleBarView.findViewById(R.id.iv_delete);
+            ivBack = titleBarView.findViewById(R.id.iv_back);
+            tvTitle = titleBarView.findViewById(R.id.tv_title);
+            btnComplete = titleBarView.findViewById(R.id.btn_complete);
+            ivDelete = titleBarView.findViewById(R.id.iv_delete);
         }
 
         public View getTitleBarView() {

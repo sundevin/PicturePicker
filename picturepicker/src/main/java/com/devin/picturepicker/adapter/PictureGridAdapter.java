@@ -1,7 +1,8 @@
 package com.devin.picturepicker.adapter;
 
-import android.app.Activity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

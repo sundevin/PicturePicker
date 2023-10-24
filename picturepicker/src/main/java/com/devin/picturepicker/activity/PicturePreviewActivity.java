@@ -117,7 +117,7 @@ public class PicturePreviewActivity extends PictureBaseActivity implements Pictu
             pictureItem.pictureAbsPath = url;
             pictureItems.add(pictureItem);
         }
-        Intent intent = createIntent(fragment.getActivity(), pictureItems, currPosition, PreviewAction.PREVIEW_DELETE);
+        Intent intent = createIntent(fragment.getContext(), pictureItems, currPosition, PreviewAction.PREVIEW_DELETE);
         fragment.startActivityForResult(intent, requestCode);
     }
 
@@ -209,7 +209,7 @@ public class PicturePreviewActivity extends PictureBaseActivity implements Pictu
             pictureItemList = toLargePictureItems;
             toLargePictureItems = null;
         }
-        pictureFragment = (PreviewPictureFragment) getFragmentManager().findFragmentById(R.id.fragment);
+        pictureFragment = (PreviewPictureFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         int i = titleBar.getLayoutParams().height + Utils.getStatusHeight(this);
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) pictureFragment.getView().getLayoutParams();
         layoutParams.topMargin = -i;

@@ -63,8 +63,6 @@ public class ZoomImageView extends AppCompatImageView {
     private Matrix matrix, prevMatrix;
 
     private enum State {NONE, DRAG, ZOOM, FLING, ANIMATE_ZOOM}
-
-    ;
     private State state;
 
     private float minScale;
