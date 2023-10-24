@@ -60,7 +60,7 @@ public class PictureGridActivity extends PictureBaseActivity implements View.OnC
     private String takePhotoPath;
 
     private PictureScanner pictureScanner;
-    private PicturePicker picturePicker = PicturePicker.getInstance();
+    private final PicturePicker picturePicker = PicturePicker.getInstance();
 
     private RecyclerView rvPictures;
     private LinearLayout llFootBar;
@@ -68,10 +68,10 @@ public class PictureGridActivity extends PictureBaseActivity implements View.OnC
     private Button btnImgPreview;
 
     private PictureGridAdapter pictureGridAdapter;
-    private List<PictureItem> currentPictureItemList = new ArrayList<>();
+    private final List<PictureItem> currentPictureItemList = new ArrayList<>();
 
     private PopupFolderListAdapter folderListAdapter;
-    private List<PictureFolder> pictureFolderList = new ArrayList<>();
+    private final List<PictureFolder> pictureFolderList = new ArrayList<>();
 
     private ListPopupWindow listPopupWindow;
 
@@ -190,6 +190,7 @@ public class PictureGridActivity extends PictureBaseActivity implements View.OnC
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         //拍照返回
         if (requestCode == OPEN_CAMERA_REQUEST_CODE) {
 

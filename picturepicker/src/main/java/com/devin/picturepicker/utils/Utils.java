@@ -75,7 +75,7 @@ public class Utils {
     public static String createTakePhotoFolderPath(Context context) {
 
         if (hasSDCard()) {
-            File file = context.getExternalFilesDir(null);
+            File file = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             if (file != null) {
                 return file.getAbsolutePath();
             }
