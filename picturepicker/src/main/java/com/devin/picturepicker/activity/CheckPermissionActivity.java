@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,7 @@ import com.devin.picturepicker.pick.PicturePicker;
 
 public class CheckPermissionActivity extends AppCompatActivity {
 
-    private PicturePicker picturePicker = PicturePicker.getInstance();
+    private final PicturePicker picturePicker = PicturePicker.getInstance();
     private static final int REQUEST_PERMISSION = 2001;
 
     @Override
@@ -54,8 +55,13 @@ public class CheckPermissionActivity extends AppCompatActivity {
     }
 
     private void showPermissionDeniedDialog() {
+        int res = R.string.pick_permission_desc;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            res = R.string.pick_permission_desc_api_33;
+        }
+
         new AlertDialog.Builder(this)
-                .setMessage(R.string.pick_permission_desc)
+                .setMessage(res)
                 .setCancelable(false)
                 .setPositiveButton(R.string.del_dialog_positive_button, new DialogInterface.OnClickListener() {
                     @Override
@@ -70,14 +76,23 @@ public class CheckPermissionActivity extends AppCompatActivity {
         boolean showCamera = picturePicker.getPickPictureOptions().isShowCamera();
         boolean justTakePhoto = picturePicker.getPickPictureOptions().isJustTakePhoto();
         if (showCamera || justTakePhoto) {
-            return new String[]{
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.CAMERA};
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                return new String[]{
+                        Manifest.permission.READ_MEDIA_IMAGES,
+                        Manifest.permission.CAMERA};
+            } else {
+                return new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA};
+            }
         } else {
-            return new String[]{
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE};
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                return new String[]{
+                        Manifest.permission.READ_MEDIA_IMAGES};
+            } else {
+                return new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE};
+            }
         }
     }
 
