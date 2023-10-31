@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +22,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.devin.picturepicker.activity.PictureCropActivity;
 import com.devin.picturepicker.activity.PictureGridActivity;
@@ -37,7 +36,11 @@ import com.devin.picturepicker.options.PickOptions;
 import com.devin.picturepicker.pick.PicturePicker;
 import com.devin.picturepicker.utils.ImageLoader;
 import com.devin.picturepicker.utils.PictureLangUtils;
+import com.devin.picturepicker.utils.UriUtils;
 import com.devin.picturepicker.view.CropImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -240,10 +243,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final SampleHolder holder, int position) {
-
-
-            ImageLoader.load(getApplication(),pictureItemList.get(position).pictureAbsPath,(ImageView) holder.itemView);
-
+            String uriString = pictureItemList.get(position).uriString;
+            if (!TextUtils.isEmpty(uriString)) {
+                ImageLoader.load(getApplication(), UriUtils.uriStr2Uri(uriString), (ImageView) holder.itemView);
+            } else {
+                ImageLoader.load(getApplication(), pictureItemList.get(position).pictureAbsPath, (ImageView) holder.itemView);
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
