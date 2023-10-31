@@ -301,6 +301,11 @@ public class PictureGridActivity extends PictureBaseActivity implements View.OnC
         pictureScanner.startScanPicture(this, new PictureScanner.OnScanFinishListener() {
             @Override
             public void onScanFinish(List<PictureFolder> pictureFolders) {
+
+                if (pictureScanner != null) {
+                    pictureScanner.stopScanPicture();
+                }
+
                 pictureFolderList.clear();
                 pictureFolderList.addAll(pictureFolders);
 
@@ -409,9 +414,6 @@ public class PictureGridActivity extends PictureBaseActivity implements View.OnC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (pictureScanner != null) {
-            pictureScanner.stopScanPicture();
-        }
         picturePicker.unregisterPictureSelectedListener(this);
         picturePicker.cleanData();
         Glide.get(this).clearMemory();
