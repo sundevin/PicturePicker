@@ -1,5 +1,6 @@
 package com.devin.picturepicker.pick;
 
+import android.content.ContentUris;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
@@ -37,6 +39,8 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
      * 查询图片需要的数据列
      */
     private final String[] IMAGE_PROJECTION = {
+            ////图片的id
+            MediaStore.Images.Media._ID,
             ////图片的显示名称  aaa.jpg
             MediaStore.Images.Media.DISPLAY_NAME,
             //图片的真实路径  /storage/emulated/0/pp/downloader/wallpaper/aaa.jpg
@@ -188,6 +192,10 @@ public class PictureScanner implements LoaderManager.LoaderCallbacks<Cursor> {
                         pictureItem.pictureMimeType = data.getString(data.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE));
                         pictureItem.pictureSize = data.getInt(data.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE));
                         pictureItem.pictureName = data.getString(data.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME));
+
+                        long id = data.getLong(data.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
+                        Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+                        pictureItem.uriString = uri.toString();
 
                         //得到文件的父目录文件
                         File parentFile = pictureFile.getParentFile();

@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 
@@ -16,6 +18,8 @@ import java.io.File;
 
 import com.devin.picturepicker.R;
 import com.devin.picturepicker.options.CropOptions;
+import com.devin.picturepicker.utils.ImageLoader;
+import com.devin.picturepicker.utils.UriUtils;
 import com.devin.picturepicker.utils.Utils;
 import com.devin.picturepicker.view.CropImageView;
 
@@ -66,7 +70,12 @@ public class PictureCropActivity extends PictureBaseActivity implements CropImag
 
 //        cvCropImage.setImageBitmap(createBitmap(imgPath));
         //用glide 可以不用关心图片压缩和角度颠倒问题，asBitmap 使gif只显示第一帧，
-        Glide.with(PictureCropActivity.this).asBitmap().load(imgPath).into(cvCropImage);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
+                || !new File(imgPath).exists()) {
+            Glide.with(PictureCropActivity.this).asBitmap().load(imgPath).into(cvCropImage);
+        } else {
+            Glide.with(PictureCropActivity.this).asBitmap().load(UriUtils.getImageContentUri(this,imgPath)).into(cvCropImage);
+        }
 
         titleBarHelper.getCompleteButton().setOnClickListener(new View.OnClickListener() {
             @Override

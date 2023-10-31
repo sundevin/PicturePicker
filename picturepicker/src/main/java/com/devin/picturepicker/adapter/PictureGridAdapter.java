@@ -3,18 +3,27 @@ package com.devin.picturepicker.adapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import java.io.File;
 import java.util.List;
 
+import com.bumptech.glide.Glide;
 import com.devin.picturepicker.R;
 import com.devin.picturepicker.activity.PictureGridActivity;
 import com.devin.picturepicker.adapter.viewholder.ItemPictureGridHolder;
 import com.devin.picturepicker.javabean.PictureItem;
 import com.devin.picturepicker.pick.PicturePicker;
 import com.devin.picturepicker.utils.ImageLoader;
+import com.devin.picturepicker.utils.UriUtils;
 import com.devin.picturepicker.utils.Utils;
 
 /**
@@ -80,7 +89,8 @@ public class PictureGridAdapter extends RecyclerView.Adapter<ItemPictureGridHold
             case ITEM_TYPE_VIEW_IMAGE:
 
                 final PictureItem pictureItem = isShowCamera ? pictureItemList.get(position - 1) : pictureItemList.get(position);
-                ImageLoader.load(activity, pictureItem.pictureAbsPath, holder.getIvPickPicture());
+                ImageLoader.load(activity, UriUtils.uriStr2Uri(pictureItem.uriString), holder.getIvPickPicture());
+
                 if (isMultiMode) {
                     holder.getIvImgSelected().setVisibility(View.VISIBLE);
                 } else {

@@ -254,7 +254,7 @@ public class PicturePreviewActivity extends PictureBaseActivity implements Pictu
         });
         pictureFragment.setOnPictureClickListener(new PicturePreviewAdapter.OnPictureClickListener() {
             @Override
-            public void onPictureClick(int position, String url) {
+            public void onPictureClick(int position) {
                 fullScreen(titleBar.getVisibility() == View.VISIBLE);
             }
         });

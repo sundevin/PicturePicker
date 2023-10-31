@@ -38,13 +38,8 @@ public class Utils {
     }
 
 
-    private static Toast toast;
     public static void showToast(Context context, String s) {
-        if (toast == null) {
-            toast = Toast.makeText(context.getApplicationContext(), s, Toast.LENGTH_SHORT);
-        }
-        toast.setText(s);
-        toast.show();
+        Toast.makeText(context.getApplicationContext(), s, Toast.LENGTH_SHORT).show();
     }
 
     /**

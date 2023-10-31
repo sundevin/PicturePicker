@@ -17,13 +17,13 @@ import com.devin.picturepicker.R;
 
 public class ImageLoader {
 
-    public static void load(Context context, String path, ImageView imageView) {
+    public static void load(Context context, Object model, ImageView imageView) {
         RequestOptions requestOptions =
                 new RequestOptions()
                         .placeholder(R.drawable.default_picture)
                         .error(R.drawable.default_picture);
         Glide.with(context)
-                .load(path)
+                .load(model)
                 .apply(requestOptions)
                 .into(imageView);
 

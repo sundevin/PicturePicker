@@ -12,6 +12,7 @@ import com.devin.picturepicker.R;
 import com.devin.picturepicker.adapter.viewholder.ItemFolderListHolder;
 import com.devin.picturepicker.javabean.PictureFolder;
 import com.devin.picturepicker.utils.ImageLoader;
+import com.devin.picturepicker.utils.UriUtils;
 
 import static android.view.View.inflate;
 
@@ -62,7 +63,7 @@ public class PopupFolderListAdapter extends BaseAdapter {
         }
 
         PictureFolder pictureFolder = pictureFolderList.get(position);
-        ImageLoader.load(context, pictureFolder.folderCover.pictureAbsPath, holder.getIvFolderCover());
+        ImageLoader.load(context, UriUtils.uriStr2Uri(pictureFolder.folderCover.uriString), holder.getIvFolderCover());
 
         holder.getTvFolderName().setText(pictureFolder.folderName);
         holder.getTvPictureCount().setText(context.getResources().getString(R.string.folder_picture_count,pictureFolder.pictureItemList.size()));

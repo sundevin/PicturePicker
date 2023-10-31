@@ -39,6 +39,10 @@ public class PictureItem implements Serializable {
      * 图片的高
      */
     public int pictureHeight;
+    /**
+     * 图片的uri
+     */
+    public String uriString;
 
 
     @Override
